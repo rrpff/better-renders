@@ -55,19 +55,21 @@ describe('Router', function () {
     describe('and a request is made to a valid route', function () {
       it('should process the request', function (done) {
         const routes = router()
-        routes.add('/test-route', function ({ res, next }) {
-          res.set('X-Seen-Me', 'true')
-          next()
+        const middleware = routes.middleware()
+
+        routes.add('/hello/:name', function ({ params }) {
+          return `Hello ${params.name}`
         })
 
-        const req = createRequest({ url: 'http://localhost/test-route' })
+        const req = createRequest({ url: 'http://localhost/hello/storm' })
         const res = createResponse()
 
-        const middleware = routes.middleware()
-        middleware(req, res, function () {
-          expect(res.get('X-Seen-Me')).to.eq('true')
+        res.send = function (body) {
+          expect(body).to.eq('Hello storm')
           done()
-        })
+        }
+
+        middleware(req, res)
       })
     })
   })
