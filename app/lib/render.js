@@ -1,9 +1,13 @@
 const React = require('react')
 const ReactDOM = require('react-dom/server')
 
-module.exports = function augmentedRender (baseProps) {
+module.exports = function augmentedRender (mode, baseProps) {
   return function render (Component, childProps) {
     const props = Object.assign({}, baseProps, childProps)
-    return ReactDOM.renderToString(<Component {...props} />)
+
+    if (mode === 'JSON') return JSON.stringify(props)
+    if (mode === 'HTML') return ReactDOM.renderToString(<Component {...props} />)
+
+    return null
   }
 }
