@@ -1,3 +1,4 @@
+const { createRequest, createResponse } = require('node-mocks-http')
 const router = require('../../app/lib/router')
 
 describe('Router', function () {
@@ -46,6 +47,27 @@ describe('Router', function () {
 
         const response = await routes.call('/test-route')
         expect(response).to.eq('finished')
+      })
+    })
+  })
+
+  describe('when mounted as express middleware', function () {
+    describe('and a request is made to a valid route', function () {
+      it('should process the request', function (done) {
+        const routes = router()
+        routes.add('/test-route', function (req, res, next) {
+          res.set('X-Seen-Me', 'true')
+          next()
+        })
+
+        const req = createRequest({ url: 'http://localhost/test-route' })
+        const res = createResponse()
+
+        const middleware = routes.middleware()
+        middleware(req, res, function () {
+          expect(res.get('X-Seen-Me')).to.eq('true')
+          done()
+        })
       })
     })
   })

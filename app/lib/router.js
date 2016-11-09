@@ -1,3 +1,4 @@
+const url = require('url')
 const routington = require('routington')
 const co = require('co')
 
@@ -13,9 +14,18 @@ module.exports = function () {
     return router
   }
 
-  router.call = function (path) {
+  router.call = function (path, ...args) {
     const match = router.match(path)
-    return co(match.node.handler)
+    const responder = co.wrap(match.node.handler)
+
+    return responder(...args)
+  }
+
+  router.middleware = function () {
+    return function routerMiddleware (req, res, next) {
+      const path = url.parse(req.url).pathname
+      router.call(path, req, res, next)
+    }
   }
 
   return router
