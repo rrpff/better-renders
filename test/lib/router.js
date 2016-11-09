@@ -55,7 +55,7 @@ describe('Router', function () {
     describe('and a request is made to a valid route', function () {
       it('should process the request', function (done) {
         const routes = router()
-        routes.add('/test-route', function (req, res, next) {
+        routes.add('/test-route', function ({ res, next }) {
           res.set('X-Seen-Me', 'true')
           next()
         })

@@ -14,17 +14,17 @@ module.exports = function () {
     return router
   }
 
-  router.call = function (path, ...args) {
+  router.call = function (path, options) {
     const match = router.match(path)
     const responder = co.wrap(match.node.handler)
 
-    return responder(...args)
+    return responder(options)
   }
 
   router.middleware = function () {
     return function routerMiddleware (req, res, next) {
       const path = url.parse(req.url).pathname
-      router.call(path, req, res, next)
+      router.call(path, { req, res, next })
     }
   }
 
