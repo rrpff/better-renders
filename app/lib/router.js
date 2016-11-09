@@ -15,11 +15,13 @@ module.exports = function () {
     return router
   }
 
-  router.call = function (path, options = {}) {
+  router.call = function (path, mode, options = {}) {
     const match = router.match(path)
     const responder = co.wrap(match.node.handler)
     options.params = match.param
-    options.render = augmentedRender({ params: options.params })
+
+    const props = { params: options.params }
+    options.render = augmentedRender(mode, props)
 
     return responder(options)
   }
@@ -27,9 +29,11 @@ module.exports = function () {
   router.middleware = function () {
     return async function routerMiddleware (req, res) {
       const path = url.parse(req.url).pathname
+      const accepts = req.headers.accept
+      const mode = accepts && accepts.includes('application/json') ? 'JSON' : 'HTML'
 
       return router
-        .call(path, { req, res })
+        .call(path, mode, { req, res })
         .then(body => res.send(body))
     }
   }

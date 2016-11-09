@@ -21,7 +21,7 @@ describe('Router', function () {
           return 'finished'
         })
 
-        const response = await routes.call('/test-route')
+        const response = await routes.call('/test-route', 'HTML')
         expect(response).to.eq('finished')
       })
     })
@@ -34,7 +34,7 @@ describe('Router', function () {
           return 'finished'
         })
 
-        const response = await routes.call('/test-route')
+        const response = await routes.call('/test-route', 'HTML')
         expect(response).to.eq('finished')
       })
     })
@@ -47,7 +47,7 @@ describe('Router', function () {
           return 'finished'
         })
 
-        const response = await routes.call('/test-route')
+        const response = await routes.call('/test-route', 'HTML')
         expect(response).to.eq('finished')
       })
     })
@@ -77,7 +77,7 @@ describe('Router', function () {
   })
 
   describe('rendering pages', function () {
-    it('should render the page', async function () {
+    function createTestMessagingRouter () {
       const TestComponent = function ({ params, message }) {
         return (
           <article>
@@ -88,14 +88,52 @@ describe('Router', function () {
       }
 
       const routes = router()
+
       routes.add('/message/:id', function ({ render }) {
         const message = 'The sky is blue'
         return render(TestComponent, { message })
       })
 
-      const html = await routes.call('/message/123')
-      const cleanHtml = sanitizeHtml(html, { allowedTags: ['article', 'h1', 'p'] })
-      expect(cleanHtml).to.eq('<article><h1>The sky is blue</h1><p>This is message ID 123</p></article>')
+      return routes
+    }
+
+    describe('when the content-type is not application/json', function () {
+      it('should render the page as HTML', function (done) {
+        const routes = createTestMessagingRouter()
+        const middleware = routes.middleware()
+        const req = createRequest({ url: 'http://localhost/message/123' })
+        const res = createResponse()
+
+        res.send = function (body) {
+          const cleanHtml = sanitizeHtml(body, { allowedTags: ['article', 'h1', 'p'] })
+          expect(cleanHtml).to.eq('<article><h1>The sky is blue</h1><p>This is message ID 123</p></article>')
+          done()
+        }
+
+        middleware(req, res)
+      })
+    })
+
+    describe('when the content-type is application/json', function () {
+      it('should render the page props as JSON', function (done) {
+        const routes = createTestMessagingRouter()
+        const middleware = routes.middleware()
+        const req = createRequest({
+          url: 'http://localhost/message/123',
+          headers: { Accept: 'application/json' }
+        })
+        const res = createResponse()
+
+        res.send = function (body) {
+          expect(JSON.parse(body)).to.deep.equal({
+            params: { id: '123' },
+            message: 'The sky is blue'
+          })
+          done()
+        }
+
+        middleware(req, res)
+      })
     })
   })
 })
