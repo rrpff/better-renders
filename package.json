@@ -1,0 +1,27 @@
+{
+  "name": "better-renders",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint -c .eslintrc .",
+    "test": "mocha --compilers js:async-to-gen/register test/helper.js test/**/*.js"
+  },
+  "keywords": [],
+  "author": "Richard Foster <richard@rpf.me> (http://rpf.me)",
+  "license": "ISC",
+  "dependencies": {
+    "co": "^4.6.0",
+    "routington": "^1.0.3"
+  },
+  "devDependencies": {
+    "async-to-gen": "^1.1.4",
+    "chai": "^3.5.0",
+    "eslint": "^3.9.1",
+    "eslint-config-airbnb": "12.0.0",
+    "eslint-plugin-import": "1.16.0",
+    "eslint-plugin-jsx-a11y": "2.2.2",
+    "eslint-plugin-react": "^6.6.0",
+    "mocha": "^3.1.2"
+  }
+}
