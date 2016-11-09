@@ -25,9 +25,10 @@ module.exports = function () {
   router.middleware = function () {
     return async function routerMiddleware (req, res) {
       const path = url.parse(req.url).pathname
-      const body = await router.call(path, { req, res })
 
-      res.send(body)
+      return router
+        .call(path, { req, res })
+        .then(body => res.send(body))
     }
   }
 
