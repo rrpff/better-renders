@@ -1,7 +1,7 @@
 const React = require('react')
 const ReactDOM = require('react-dom/server')
 
-module.exports = function augmentedRender (mode, baseProps) {
+module.exports = function augmentedRender ({ mode, baseProps }) {
   return function render (Component, childProps) {
     const props = Object.assign({}, baseProps, childProps)
 

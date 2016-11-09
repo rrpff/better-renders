@@ -20,8 +20,8 @@ module.exports = function () {
     const responder = co.wrap(match.node.handler)
     options.params = match.param
 
-    const props = { params: options.params }
-    options.render = augmentedRender(mode, props)
+    const baseProps = { params: options.params }
+    options.render = augmentedRender({ mode, baseProps })
 
     return responder(options)
   }
