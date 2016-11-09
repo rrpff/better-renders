@@ -1,6 +1,7 @@
 const url = require('url')
 const routington = require('routington')
 const co = require('co')
+const augmentedRender = require('./render')
 
 module.exports = function () {
   const router = routington()
@@ -18,6 +19,7 @@ module.exports = function () {
     const match = router.match(path)
     const responder = co.wrap(match.node.handler)
     options.params = match.param
+    options.render = augmentedRender({ params: options.params })
 
     return responder(options)
   }

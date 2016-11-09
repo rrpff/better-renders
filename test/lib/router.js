@@ -1,4 +1,6 @@
+const React = require('react')
 const { createRequest, createResponse } = require('node-mocks-http')
+const sanitizeHtml = require('sanitize-html')
 const router = require('../../app/lib/router')
 
 describe('Router', function () {
@@ -71,6 +73,29 @@ describe('Router', function () {
 
         middleware(req, res)
       })
+    })
+  })
+
+  describe('rendering pages', function () {
+    it('should render the page', async function () {
+      const TestComponent = function ({ params, message }) {
+        return (
+          <article>
+            <h1>{message}</h1>
+            <p>This is message ID {params.id}</p>
+          </article>
+        )
+      }
+
+      const routes = router()
+      routes.add('/message/:id', function ({ render }) {
+        const message = 'The sky is blue'
+        return render(TestComponent, { message })
+      })
+
+      const html = await routes.call('/message/123')
+      const cleanHtml = sanitizeHtml(html, { allowedTags: ['article', 'h1', 'p'] })
+      expect(cleanHtml).to.eq('<article><h1>The sky is blue</h1><p>This is message ID 123</p></article>')
     })
   })
 })
