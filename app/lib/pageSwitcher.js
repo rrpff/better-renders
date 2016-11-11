@@ -1,7 +1,7 @@
 const routeComponentMapper = require('./routeComponentMapper')
 const { SET_LOCATION } = require('../../app/lib/types')
 
-function setLocation (store, location, Component) {
+function setLocation (location, Component) {
   return {
     type: SET_LOCATION,
     location,
@@ -15,7 +15,7 @@ module.exports = function createPageSwitcher (routes, history) {
   return function (store) {
     history.listen(location => {
       const Component = getComponentForRoute(location.pathname)
-      const action = setLocation(store, location, Component)
+      const action = setLocation(location, Component)
 
       store.dispatch(action)
     })
