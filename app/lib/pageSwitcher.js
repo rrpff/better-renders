@@ -1,20 +1,5 @@
-const routington = require('routington')
+const routeComponentMapper = require('./routeComponentMapper')
 const { SET_LOCATION } = require('../../app/lib/types')
-
-function routeComponentMapper (routes) {
-  const router = routington()
-  const paths = Object.keys(routes)
-
-  paths.forEach(path => {
-    const node = router.define(path)[0]
-    node.Component = routes[path]
-  })
-
-  return function (path) {
-    const match = router.match(path)
-    return match.node.Component
-  }
-}
 
 function setLocation (store, location, Component) {
   return {
