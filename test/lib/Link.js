@@ -10,8 +10,7 @@ describe('Link', function () {
   })
 
   it('should not require an onClick event', function () {
-    const preventDefault = spy()
-    const event = { preventDefault }
+    const event = { preventDefault: () => {} }
     const wrapper = shallow(<Link href="/about">About Us</Link>)
     wrapper.find('a').simulate('click', event)
   })
@@ -23,6 +22,7 @@ describe('Link', function () {
     const wrapper = shallow(<Link href="/about" onClick={onClick}>About Us</Link>)
 
     wrapper.find('a').simulate('click', event)
+
     expect(preventDefault.callCount).to.eq(1)
     expect(onClick.firstCall.args).to.deep.equal([event])
   })
