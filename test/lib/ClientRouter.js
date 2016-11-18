@@ -23,7 +23,7 @@ describe('Client Router', function () {
 
     const app = (
       <Provider store={store}>
-        <ClientRouter />
+        <ClientRouter history={history} />
       </Provider>
     )
 
@@ -39,6 +39,18 @@ describe('Client Router', function () {
       const wrapper = render(app)
       expect(wrapper.find('.homepage')).to.have.length(0)
       expect(wrapper.find('.aboutpage')).to.have.length(1)
+    })
+
+    it('should throw an error when a history object isn\'t passed in', function () {
+      const invalidApp = (
+        <Provider store={store}>
+          <ClientRouter />
+        </Provider>
+      )
+
+      expect(() => render(invalidApp)).to.throw(
+        '<ClientRouter> will not work without a history prop'
+      )
     })
   })
 })
