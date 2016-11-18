@@ -1,6 +1,6 @@
 const React = require('react')
 
-module.exports = function Link (props) {
+function Link (props) {
   const handleClick = e => {
     e.preventDefault()
     props.onClick(e)
@@ -12,3 +12,13 @@ module.exports = function Link (props) {
     </a>
   )
 }
+
+Link.propTypes = {
+  onClick: React.PropTypes.func
+}
+
+Link.defaultProps = {
+  onClick: () => {}
+}
+
+module.exports = Link
