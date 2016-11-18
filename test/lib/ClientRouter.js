@@ -27,16 +27,18 @@ describe('Client Router', function () {
       </Provider>
     )
 
-    it('should only render the component for the current URL', function () {
-      history.push({ pathname: '/' })
-      const homeWrapper = render(app)
-      expect(homeWrapper.find('.homepage')).to.have.length(1)
-      expect(homeWrapper.find('.aboutpage')).to.have.length(0)
+    it('should only default to the homepage', function () {
+      const wrapper = render(app)
+      expect(wrapper.find('.homepage')).to.have.length(1)
+      expect(wrapper.find('.aboutpage')).to.have.length(0)
+    })
 
+    it('should only render the component for the current URL', function () {
       history.push({ pathname: '/about' })
-      const aboutWrapper = render(app)
-      expect(aboutWrapper.find('.homepage')).to.have.length(0)
-      expect(aboutWrapper.find('.aboutpage')).to.have.length(1)
+
+      const wrapper = render(app)
+      expect(wrapper.find('.homepage')).to.have.length(0)
+      expect(wrapper.find('.aboutpage')).to.have.length(1)
     })
   })
 })
