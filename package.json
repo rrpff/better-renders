@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint -c .eslintrc .",
-    "test": "mocha --compilers js:babel-core/register --require babel-polyfill test/helper.js test/**/*.js"
+    "test": "mocha test/**/*.js",
   },
   "keywords": [],
   "author": "Richard Foster <richard@rpf.me> (http://rpf.me)",
