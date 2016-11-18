@@ -33,7 +33,8 @@
     "no-param-reassign": 0,
     "generator-star-spacing": 0,
     "no-return-assign": 0,
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "jsx-a11y/no-static-element-interactions": 0
   },
   "plugins": [
     "react"

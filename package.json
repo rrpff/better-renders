@@ -38,6 +38,7 @@
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
     "redux-mock-store": "^1.2.1",
-    "sanitize-html": "^1.13.0"
+    "sanitize-html": "^1.13.0",
+    "sinon": "^1.17.6"
   }
 }
