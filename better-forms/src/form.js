@@ -1,12 +1,4 @@
-const { awaitIfAsync } = require('./helpers')
-
-function formatValidation (errorOrValid) {
-  if (errorOrValid === true) {
-    return { error: null, valid: true }
-  }
-
-  return { error: errorOrValid, valid: false }
-}
+const validateAll = require('./validateAll')
 
 function form ({ helpers = [], fields = {} } = {}) {
   function instance (entry = {}) {
@@ -19,13 +11,12 @@ function form ({ helpers = [], fields = {} } = {}) {
   }
 
   instance.helpers = helpers
-
   instance.validate = async function (field, value) {
-    const validateField = fields[field]
-    if (!validateField) return formatValidation(true)
-
-    const errorOrValid = validateField(value, helpers)
-    return formatValidation(await awaitIfAsync(errorOrValid))
+    return validateAll({
+      value,
+      helpers,
+      validators: fields[field]
+    })
   }
 
   return instance
