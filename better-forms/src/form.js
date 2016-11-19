@@ -1,25 +1,43 @@
 const validateAll = require('./validateAll')
 
+function emptyFormObject (fields) {
+  const fieldMap = Object.keys(fields).reduce((acc, field) => {
+    acc[field] = { value: undefined, valid: null, errors: [] }
+    return acc
+  }, {})
+
+  return { valid: null, fields: fieldMap }
+}
+
+async function validatedFormObject (fields, entry, validate) {
+  let allValid = true
+  const fieldNames = Object.keys(fields)
+  const fieldObjects = await Promise.all(fieldNames.map(async field => {
+    const value = entry[field]
+    const { valid, errors } = await validate(field, value)
+    if (!valid) allValid = false
+    return { [field]: { value, valid, errors } }
+  }))
+
+  const fieldMap = Object.assign({}, ...fieldObjects)
+
+  return { valid: allValid, fields: fieldMap }
+}
+
 function form ({ helpers = [], fields = {} } = {}) {
-  function instance (entry = {}) {
-    const validated = Object.keys(entry).map(field => {
-      const value = entry[field]
-      return instance.validate(field, value)
-    })
-
-    return validated
+  async function formInstance (entry) {
+    if (!entry) return emptyFormObject(fields)
+    return await validatedFormObject(fields, entry, formInstance.validate)
   }
 
-  instance.helpers = helpers
-  instance.validate = async function (field, value) {
-    return validateAll({
-      value,
-      helpers,
-      validators: fields[field]
-    })
-  }
+  formInstance.helpers = helpers
+  formInstance.validate = async (field, value) => validateAll({
+    value,
+    helpers,
+    validators: fields[field]
+  })
 
-  return instance
+  return formInstance
 }
 
 module.exports = form
