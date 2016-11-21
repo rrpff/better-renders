@@ -16,15 +16,15 @@ function createRenderer ({ components = {}, Layout } = {}) {
 
       switch (mode) {
         case 'JSON': {
-          return JSON.stringify(allProps)
+          return Promise.resolve(allProps)
         }
         case 'HTML': {
           let content = ReactDOM.renderToString(<Component {...allProps} />)
           if (Layout) content = ReactDOM.renderToStaticMarkup(<Layout content={content} />)
-          return content
+          return Promise.resolve(content)
         }
         default: {
-          return null
+          return Promise.resolve()
         }
       }
     }
