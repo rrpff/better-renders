@@ -87,11 +87,13 @@ describe('Router', function () {
         )
       }
 
-      const routes = router()
+      const routes = router({
+        components: { TestComponent }
+      })
 
       routes.add('/message/:id', function ({ render }) {
         const message = 'The sky is blue'
-        return render(TestComponent, { message })
+        return render('TestComponent', { message })
       })
 
       return routes

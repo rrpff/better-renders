@@ -1,10 +1,12 @@
 const url = require('url')
 const routington = require('routington')
 const co = require('co')
-const augmentedRender = require('./render')
+const createRenderer = require('./createRenderer')
 
-module.exports = function () {
+module.exports = function (definition) {
   const router = routington()
+
+  router.renderer = createRenderer(definition)
 
   router.add = function (path, handler) {
     const nodes = router.define(path)
@@ -21,7 +23,7 @@ module.exports = function () {
     options.params = match.param
 
     const baseProps = { params: options.params }
-    options.render = augmentedRender({ mode, baseProps })
+    options.render = router.renderer({ mode, baseProps })
 
     return responder(options)
   }
