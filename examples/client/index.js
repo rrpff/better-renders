@@ -1,3 +1,5 @@
+require('babel-polyfill')
+
 const React = require('react')
 const ReactDOM = require('react-dom')
 const { createStore, combineReducers } = require('redux')
@@ -7,6 +9,32 @@ const createRoutingReducer = require('../../app/lib/createRoutingReducer')
 const syncHistoryToStore = require('../../app/lib/syncHistoryToStore')
 const ClientRouter = require('../../app/lib/ClientRouter')
 const Link = require('../../app/lib/Link')
+
+const form = require('serializable-form')
+const { Form, FormInput } = require('serializable-form-react')
+
+const bookForm = form({
+  fields: {
+    title: [
+      form.validator(value => value.length > 1, 'too short')
+    ],
+    author: [
+      form.validator(value => value.includes('!!!'), 'not bold enough'),
+      form.validator(value => value.toUpperCase() === value, 'must be caps')
+    ]
+  }
+})
+
+const entry = {
+  valid: false,
+  fields: {
+    title: {
+      value: 'The Stand',
+      valid: true,
+      errors: []
+    }
+  }
+}
 
 const history = createBrowserHistory()
 
@@ -20,8 +48,6 @@ function Navigation () {
 }
 
 function Location () {
-  console.log(history)
-
   return (
     <section>
       <p>
@@ -41,6 +67,10 @@ function HomePage () {
     <section>
       <Navigation />
       <h1>home</h1>
+      <Form form={bookForm} entry={entry}>
+        <FormInput field="title" type="text" />
+        <FormInput field="author" type="text" />
+      </Form>
       <Location />
     </section>
   )
