@@ -10,7 +10,7 @@ describe('Express middleware', function () {
       const Layout = props =>
         <body dangerouslySetInnerHTML={{ __html: props.content }} />
 
-      const TestComponent = function ({ params, message }) {
+      const MessagePage = function ({ params, message }) {
         return (
           <article>
             <h1>{message}</h1>
@@ -20,11 +20,11 @@ describe('Express middleware', function () {
       }
 
       const app = express()
-      app.use(rendering({ components: { TestComponent }, Layout }))
+      app.use(rendering({ components: { MessagePage }, Layout }))
 
       app.get('/message/:id', function (req, res) {
         const message = 'The sky is blue'
-        res.better.render('TestComponent', { message })
+        res.better.render('MessagePage', { message })
       })
 
       return app
@@ -56,8 +56,11 @@ describe('Express middleware', function () {
             .expect(200)
             .expect(function (res) {
               expect(res.body).to.deep.equal({
-                params: { id: '123' },
-                message: 'The sky is blue'
+                component: 'MessagePage',
+                props: {
+                  params: { id: '123' },
+                  message: 'The sky is blue'
+                }
               })
             })
             .end(done)

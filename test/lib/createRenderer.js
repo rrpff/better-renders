@@ -99,8 +99,11 @@ describe('Rendering', function () {
       const render = renderer({ mode: 'JSON' })
       const json = await render('Title', { text: 'My title' })
 
-      expect(JSON.parse(json)).to.deep.equal({
-        text: 'My title'
+      expect(json).to.deep.equal({
+        component: 'Title',
+        props: {
+          text: 'My title'
+        }
       })
     })
   })

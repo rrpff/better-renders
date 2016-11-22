@@ -1,31 +1,31 @@
+const nock = require('nock')
 const configureMockStore = require('redux-mock-store').default
+const thunk = require('redux-thunk').default
 const createMemoryHistory = require('history/createMemoryHistory').default
 const syncHistoryToStore = require('../../app/lib/syncHistoryToStore')
 const { SET_LOCATION } = require('../../app/lib/types')
 
-function setup () {
-  const history = createMemoryHistory()
-  const store = configureMockStore()({})
-  syncHistoryToStore(history, store)
-
-  return { history, store }
-}
-
 describe('Sync History To Store', function () {
-  it('should dispatch a SET_LOCATION action when called and on history changes', function () {
-    const { history, store } = setup()
+  it('should fetch JSON of the new page on history changes', function (done) {
+    const host = 'http://localhost:3000'
+    const history = createMemoryHistory()
+    const store = configureMockStore([thunk])({})
 
-    history.push({
-      pathname: '/test',
-      search: '?query=true',
-      state: { test: 'state' }
+    syncHistoryToStore({ history, store, host })
+
+    nock(host).get('/test').reply(200, { component: 'TestPage', props: {} })
+
+    store.subscribe(function () {
+      const [action] = store.getActions()
+
+      expect(action.type).to.eq(SET_LOCATION)
+      expect(action.location.pathname).to.eq('/test')
+      expect(action.component).to.eq('TestPage')
+      expect(action.props).to.deep.equal({})
+
+      done()
     })
 
-    const [first, second] = store.getActions()
-
-    expect(first.type).to.eq(SET_LOCATION)
-    expect(first.location.pathname).to.eq('/')
-    expect(second.type).to.eq(SET_LOCATION)
-    expect(second.location.pathname).to.eq('/test')
+    history.push({ pathname: '/test', search: '?query=true', state: { test: 'state' } })
   })
 })

@@ -46,11 +46,4 @@ describe('Link', function () {
 
     expect(pushToHistory.firstCall.args).to.deep.equal(['/about?test=123&great'])
   })
-
-  it('should throw an error when rendered outside of a ClientRouter', function () {
-    const link = <Link href="/about?test=123&great">About Us</Link>
-    const render = () => shallow(link)
-
-    expect(render).to.throw('<Link> must not be used outside of a <ClientRouter> instance')
-  })
 })

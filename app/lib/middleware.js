@@ -26,7 +26,7 @@ module.exports = function middleware (rendererOptions) {
 
       render(component, props)
         .then(respond)
-        .catch(e => { console.log(e); next(e) })
+        .catch(next)
     }
 
     next()

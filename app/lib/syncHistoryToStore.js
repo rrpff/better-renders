@@ -1,9 +1,7 @@
-const { setLocation } = require('./actions/routing')
+const { fetchLocation } = require('./actions/routing')
 
-module.exports = function syncHistoryToStore (history, store) {
-  store.dispatch(setLocation(history.location))
-
+module.exports = function syncHistoryToStore ({ history, store, host }) {
   history.listen(location => {
-    store.dispatch(setLocation(location))
+    store.dispatch(fetchLocation({ host, location }))
   })
 }

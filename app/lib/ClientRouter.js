@@ -22,7 +22,8 @@ class ClientRouter extends React.Component {
   }
 
   render () {
-    return <this.props.routing.Component />
+    const { Component, props } = this.props.routing
+    return <Component {...props} />
   }
 }
 

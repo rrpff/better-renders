@@ -6,22 +6,35 @@ const missingComponentError = name => `The component ${name} is not registered`
 
 function createRenderer ({ components = {}, Layout } = {}) {
   return function renderer ({ mode, baseProps } = {}) {
-    return function render (component, props = {}) {
-      if (!component) return Promise.reject(new Error(MISSING_COMPONENT_ERROR))
+    return function render (componentName, props = {}) {
+      if (!componentName) return Promise.reject(new Error(MISSING_COMPONENT_ERROR))
 
-      const Component = components[component]
-      if (!Component) return Promise.reject(new Error(missingComponentError(component)))
+      const Component = components[componentName]
+      if (!Component) return Promise.reject(new Error(missingComponentError(componentName)))
 
       const allProps = Object.assign({}, baseProps, props)
 
       switch (mode) {
         case 'JSON': {
-          return Promise.resolve(allProps)
+          return Promise.resolve({
+            component: componentName,
+            props: allProps
+          })
         }
         case 'HTML': {
-          let content = ReactDOM.renderToString(<Component {...allProps} />)
-          if (Layout) content = ReactDOM.renderToStaticMarkup(<Layout content={content} />)
-          return Promise.resolve(content)
+          try {
+            let content = ReactDOM.renderToString(<Component {...allProps} />)
+
+            if (Layout) {
+              content = ReactDOM.renderToStaticMarkup(
+                <Layout content={content} childProps={allProps} />
+              )
+            }
+
+            return Promise.resolve(content)
+          } catch (e) {
+            return Promise.reject(e)
+          }
         }
         default: {
           return Promise.resolve()

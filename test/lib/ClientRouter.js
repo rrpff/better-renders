@@ -1,5 +1,7 @@
 const React = require('react')
-const { createStore, combineReducers } = require('redux')
+const nock = require('nock')
+const { applyMiddleware, createStore, combineReducers } = require('redux')
+const thunk = require('redux-thunk').default
 const { Provider } = require('react-redux')
 const { render } = require('enzyme')
 const createMemoryHistory = require('history/createMemoryHistory').default
@@ -11,15 +13,22 @@ describe('Client Router', function () {
   describe('when rendering in the app', function () {
     const HomePage = () => <div className="homepage" />
     const AboutPage = () => <div className="aboutpage" />
-    const routes = {
-      '/': HomePage,
-      '/about': AboutPage
-    }
 
+    const host = 'http://localhost:3000'
     const history = createMemoryHistory()
-    const reducer = combineReducers({ routing: createRoutingReducer(routes) })
-    const store = createStore(reducer)
-    syncHistoryToStore(history, store)
+    const reducer = combineReducers({
+      routing: createRoutingReducer({
+        components: { HomePage, AboutPage },
+        initialComponent: 'HomePage',
+        initialProps: {}
+      })
+    })
+
+    const middlewares = applyMiddleware(thunk)
+    const initialState = { routing: { Component: HomePage } }
+    const store = createStore(reducer, initialState, middlewares)
+
+    syncHistoryToStore({ history, store, host })
 
     const app = (
       <Provider store={store}>
@@ -33,12 +42,16 @@ describe('Client Router', function () {
       expect(wrapper.find('.aboutpage')).to.have.length(0)
     })
 
-    it('should only render the component for the current URL', function () {
+    it('should only render the component for the current URL', function (done) {
+      nock(host).get('/about').reply(200, { component: 'AboutPage', props: {} })
       history.push({ pathname: '/about' })
 
-      const wrapper = render(app)
-      expect(wrapper.find('.homepage')).to.have.length(0)
-      expect(wrapper.find('.aboutpage')).to.have.length(1)
+      store.subscribe(function () {
+        const wrapper = render(app)
+        expect(wrapper.find('.homepage')).to.have.length(0)
+        expect(wrapper.find('.aboutpage')).to.have.length(1)
+        done()
+      })
     })
 
     it('should throw an error when a history object isn\'t passed in', function () {
