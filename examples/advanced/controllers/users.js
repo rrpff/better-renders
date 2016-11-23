@@ -2,7 +2,7 @@ const { Router } = require('express')
 
 const router = new Router()
 
-const users = [{ name: 'Storm', username: 'storm' }, { name: 'Richard', username: 'richard' }]
+const users = [{ name: 'Richard', username: 'richard' }]
 
 router.get('/users', async function (req, res) {
   res.better.render('UserIndexPage', { users })

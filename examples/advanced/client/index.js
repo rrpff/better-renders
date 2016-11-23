@@ -9,15 +9,16 @@ const createBrowserHistory = require('history/createBrowserHistory').default
 const createRoutingReducer = require('../../../app/lib/createRoutingReducer')
 const syncHistoryToStore = require('../../../app/lib/syncHistoryToStore')
 const ClientRouter = require('../../../app/lib/ClientRouter')
+const pages = require('../pages')
 
-const UserIndexPage = require('../pages/UserIndexPage')
-const UserShowPage = require('../pages/UserShowPage')
-
-const components = { UserIndexPage, UserShowPage }
 const { initialComponent, initialProps, host } = window.__betterState
 
 const reducer = combineReducers({
-  routing: createRoutingReducer({ components, initialComponent, initialProps })
+  routing: createRoutingReducer({
+    components: pages,
+    initialComponent,
+    initialProps
+  })
 })
 
 const middlewares = applyMiddleware(thunk)

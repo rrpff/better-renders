@@ -1,16 +1,13 @@
 const path = require('path')
 const express = require('express')
-const rendering = require('../../../app/lib/middleware')
+const rendering = require('../../app/lib/middleware')
 
 const app = express()
 
-const ServerLayout = require('../layouts/ServerLayout')
-const pages = {
-  UserIndexPage: require('../pages/UserIndexPage'),
-  UserShowPage: require('../pages/UserShowPage')
-}
+const ServerLayout = require('./layouts/ServerLayout')
+const pages = require('./pages')
 
-app.use(express.static(path.join(__dirname, '../client')))
+app.use(express.static(path.join(__dirname, './client')))
 app.use(rendering({ components: pages, Layout: ServerLayout }))
 
 const usersController = require('./controllers/users')
