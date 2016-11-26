@@ -6,7 +6,7 @@ const Link = require('../../app/lib/Link')
 describe('Link', function () {
   it('should render an <a> tag with the content given', function () {
     const link = <Link href="/about">About Us</Link>
-    const context = { router: { pushToHistory: () => {} } }
+    const context = { router: { pushLocation: () => {} } }
     const wrapper = shallow(link, { context })
 
     expect(wrapper.html()).to.eq('<a href="/about">About Us</a>')
@@ -15,7 +15,7 @@ describe('Link', function () {
   it('should not require an onClick event', function () {
     const event = { preventDefault: () => {} }
     const link = <Link href="/about">About Us</Link>
-    const context = { router: { pushToHistory: () => {} } }
+    const context = { router: { pushLocation: () => {} } }
     const wrapper = shallow(link, { context })
 
     wrapper.find('a').simulate('click', event)
@@ -26,7 +26,7 @@ describe('Link', function () {
     const onClick = spy()
     const event = { preventDefault }
     const link = <Link href="/about" onClick={onClick}>About Us</Link>
-    const context = { router: { pushToHistory: () => {} } }
+    const context = { router: { pushLocation: () => {} } }
     const wrapper = shallow(link, { context })
 
     wrapper.find('a').simulate('click', event)
@@ -38,12 +38,12 @@ describe('Link', function () {
   it('should trigger a history push on click', function () {
     const event = { preventDefault: () => {} }
     const link = <Link href="/about?test=123&great">About Us</Link>
-    const pushToHistory = spy()
-    const context = { router: { pushToHistory } }
+    const pushLocation = spy()
+    const context = { router: { pushLocation } }
     const wrapper = shallow(link, { context })
 
     wrapper.find('a').simulate('click', event)
 
-    expect(pushToHistory.firstCall.args).to.deep.equal(['/about?test=123&great'])
+    expect(pushLocation.firstCall.args).to.deep.equal(['/about?test=123&great'])
   })
 })

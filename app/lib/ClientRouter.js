@@ -6,12 +6,20 @@ const HISTORY_NOT_PRESENT_ERROR = '<ClientRouter> will not work without a histor
 
 class ClientRouter extends React.Component {
   getChildContext () {
-    const pushToHistory = pathname => {
+    const pushLocation = pathname => {
       const location = createLocation(pathname)
       this.props.history.push(location)
     }
 
-    const router = { pushToHistory }
+    const pushLocationWithPage = (pathname, page) => {
+      const location = createLocation(pathname)
+      location.state = location.state || {}
+      location.state.page = page
+
+      this.props.history.push(location)
+    }
+
+    const router = { pushLocation, pushLocationWithPage }
     return { router }
   }
 

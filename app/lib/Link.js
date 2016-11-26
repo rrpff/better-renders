@@ -5,7 +5,7 @@ function Link (props, context) {
     e.preventDefault()
 
     if (context.router) {
-      context.router.pushToHistory(props.href)
+      context.router.pushLocation(props.href)
     }
 
     props.onClick(e)
