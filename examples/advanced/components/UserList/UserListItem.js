@@ -8,7 +8,7 @@ class UserListItem extends Component {
 
     return (
       <li>
-        <Link href={`/users/${user.username}`}>
+        <Link href={`/user/${user.username}`}>
           {user.name}
         </Link>
       </li>
