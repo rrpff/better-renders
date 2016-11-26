@@ -28,8 +28,6 @@ const store = createStore(reducer, devTools, middlewares)
 const history = createBrowserHistory()
 syncHistoryToStore({ history, store, host })
 
-store.subscribe(console.log.bind(console))
-
 const app = (
   <Provider store={store}>
     <ClientRouter history={history} />
