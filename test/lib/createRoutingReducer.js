@@ -41,7 +41,6 @@ describe('Create Routing Reducer', function () {
         }
 
         nock('http://localhost:3000')
-          .log(console.log)
           .get('/test')
           .query({ query: true })
           .reply(200, { component: 'TestComponent', props: { query: true } })
