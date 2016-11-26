@@ -29,6 +29,10 @@ module.exports = function middleware (rendererOptions) {
         .catch(next)
     }
 
+    res.better.redirect = function (path, { status = 302 } = {}) {
+      res.redirect(status, path)
+    }
+
     next()
   }
 }

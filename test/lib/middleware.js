@@ -5,31 +5,39 @@ const sanitize = require('sanitize-html')
 const rendering = require('../../app/lib/middleware')
 
 describe('Express middleware', function () {
-  describe('when rendering pages', function () {
-    function createTestMessagingApp () {
-      const Layout = props =>
-        <body dangerouslySetInnerHTML={{ __html: props.content }} />
+  function createTestMessagingApp () {
+    const Layout = props =>
+      <body dangerouslySetInnerHTML={{ __html: props.content }} />
 
-      const MessagePage = function ({ params, message }) {
-        return (
-          <article>
-            <h1>{message}</h1>
-            <p>This is message ID {params.id}</p>
-          </article>
-        )
-      }
-
-      const app = express()
-      app.use(rendering({ components: { MessagePage }, Layout }))
-
-      app.get('/message/:id', function (req, res) {
-        const message = 'The sky is blue'
-        res.better.render('MessagePage', { message })
-      })
-
-      return app
+    const MessagePage = function ({ params, message }) {
+      return (
+        <article>
+          <h1>{message}</h1>
+          <p>This is message ID {params.id}</p>
+        </article>
+      )
     }
 
+    const app = express()
+    app.use(rendering({ components: { MessagePage }, Layout }))
+
+    app.post('/messages', function (req, res) {
+      res.better.redirect('/message/456')
+    })
+
+    app.get('/messages/random', function (req, res) {
+      res.better.redirect('/message/789', { status: 301 })
+    })
+
+    app.get('/message/:id', function (req, res) {
+      const message = 'The sky is blue'
+      res.better.render('MessagePage', { message })
+    })
+
+    return app
+  }
+
+  describe('when rendering pages', function () {
     describe('and the route exists and renders content', function () {
       describe('and the content-type is not application/json', function () {
         it('should render the page as HTML', function (done) {
@@ -69,6 +77,30 @@ describe('Express middleware', function () {
 
       // it('should pass errors down the chain', function () {
       // })
+    })
+  })
+
+  describe('when redirecting', function () {
+    it('should redirect to the correct route', function (done) {
+      const app = createTestMessagingApp()
+
+      supertest(app)
+        .post('/messages')
+        .expect(302)
+        .expect('Location', '/message/456')
+        .end(done)
+    })
+
+    describe('and specifying the status code', function () {
+      it('should redirect using the status code provided', function (done) {
+        const app = createTestMessagingApp()
+
+        supertest(app)
+          .get('/messages/random')
+          .expect(301)
+          .expect('Location', '/message/789')
+          .end(done)
+      })
     })
   })
 })
