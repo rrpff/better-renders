@@ -1,6 +1,7 @@
 const React = require('react')
 const Page = require('../Page')
 const UserList = require('../../components/UserList')
+const Link = require('../../../../app/lib/Link')
 
 class UserIndexPage extends Page {
   render () {
@@ -9,6 +10,7 @@ class UserIndexPage extends Page {
     return (
       <article>
         <h1>Users ({users.length})</h1>
+        <h3><Link href="/users/new">create user</Link></h3>
         <UserList users={users} />
       </article>
     )

@@ -18,7 +18,7 @@ const ServerLayout = props =>
           dangerouslySetInnerHTML={{ __html: `
             window.__betterState = {
               host: 'http://localhost:4000',
-              initialComponent: 'UserIndexPage',
+              initialComponent: '${props.component}',
               initialProps: ${serialize(props.childProps)}
             };
           ` }}

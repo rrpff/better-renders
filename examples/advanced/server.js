@@ -1,5 +1,6 @@
 const path = require('path')
 const express = require('express')
+const bodyParser = require('body-parser')
 const rendering = require('../../app/lib/middleware')
 
 const app = express()
@@ -7,6 +8,7 @@ const app = express()
 const ServerLayout = require('./layouts/ServerLayout')
 const pages = require('./pages')
 
+app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, './client')))
 app.use(rendering({ components: pages, Layout: ServerLayout }))
 
