@@ -62,6 +62,22 @@ describe('Rendering', function () {
       expect(cleanHtml).to.eq(expectedHtml)
     })
 
+    it('should pass component html, props and name into the Layout', async function () {
+      const Title = props => <h1>{props.text}</h1>
+      const Layout = props => {
+        const { childProps, component, content } = props
+        expect(childProps).to.deep.equal({ base: true, text: 'My title' })
+        expect(component).to.eq('Title')
+        expect(content).to.eq('<h1 data-reactroot="" data-reactid="1" data-react-checksum="-863760114">My title</h1>')
+        return null
+      }
+
+      const renderer = createRenderer({ Layout, components: { Title } })
+      const render = renderer({ mode: 'HTML', baseProps: { base: true } })
+
+      await render('Title', { text: 'My title' })
+    })
+
     it('should render the layout statically and the content with react data attributes', async function () {
       const Title = props => <h1>{props.text}</h1>
       const Layout = props =>

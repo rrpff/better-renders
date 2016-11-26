@@ -27,7 +27,7 @@ function createRenderer ({ components = {}, Layout } = {}) {
 
             if (Layout) {
               content = ReactDOM.renderToStaticMarkup(
-                <Layout content={content} childProps={allProps} />
+                <Layout content={content} component={componentName} childProps={allProps} />
               )
             }
 
