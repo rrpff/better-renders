@@ -25,8 +25,7 @@ describe('Client Router', function () {
     })
 
     const middlewares = applyMiddleware(thunk)
-    const initialState = { routing: { Component: HomePage } }
-    const store = createStore(reducer, initialState, middlewares)
+    const store = createStore(reducer, middlewares)
 
     syncHistoryToStore({ history, store, host })
 
