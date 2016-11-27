@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint -c .eslintrc .",
-    "test": "mocha test/**/*.js",
+    "test": "mocha test/*.js test/lib/*.js",
     "build-example": "browserify -t babelify examples/client/index.js -o examples/client/index-compiled.js",
     "watch-example": "watchify -t babelify examples/client/index.js -o examples/client/index-compiled.js",
     "example": "concurrently \"npm run watch-example\" \"http-server examples/client\"",
