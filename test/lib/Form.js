@@ -17,7 +17,7 @@ const sleep = () => new Promise(process.nextTick)
 
 describe('Form', function () {
   describe('when submitting the form', function () {
-    it('should call the given action and re-render the page with the output', async function (done) {
+    it('should call the given action and re-render the page with the output', function (done) {
       const guestbookForm = form({ fields: { message: [] } })
       const entry = {
         valid: true,
