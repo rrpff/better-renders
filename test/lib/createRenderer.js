@@ -8,7 +8,7 @@ describe('Rendering', function () {
       it('should reject with an error', async function () {
         const Layout = () => null
 
-        const renderer = createRenderer({ Layout, components: {} })
+        const renderer = createRenderer({ host: 'http://www.example.com', Layout, components: {} })
         const render = renderer({ mode: 'HTML' })
 
         try {
@@ -23,7 +23,7 @@ describe('Rendering', function () {
       it('should reject with an error', async function () {
         const Layout = () => null
 
-        const renderer = createRenderer({ Layout, components: {} })
+        const renderer = createRenderer({ host: 'http://www.example.com', Layout, components: {} })
         const render = renderer({ mode: 'HTML' })
 
         try {
@@ -37,7 +37,7 @@ describe('Rendering', function () {
     it('should render the component if no Layout is defined', async function () {
       const Title = props => <h1>{props.text}</h1>
 
-      const renderer = createRenderer({ components: { Title } })
+      const renderer = createRenderer({ host: 'http://www.example.com', components: { Title } })
       const render = renderer({ mode: 'HTML' })
 
       const html = await render('Title', { text: 'My title' })
@@ -52,7 +52,7 @@ describe('Rendering', function () {
       const Layout = props =>
         <section><div dangerouslySetInnerHTML={{ __html: props.content }} /></section>
 
-      const renderer = createRenderer({ Layout, components: { Title } })
+      const renderer = createRenderer({ host: 'http://www.example.com', Layout, components: { Title } })
       const render = renderer({ mode: 'HTML' })
 
       const html = await render('Title', { text: 'My title' })
@@ -62,17 +62,18 @@ describe('Rendering', function () {
       expect(cleanHtml).to.eq(expectedHtml)
     })
 
-    it('should pass component html, props and name into the Layout', async function () {
+    it('should pass component html, props, host and name into the Layout', async function () {
       const Title = props => <h1>{props.text}</h1>
       const Layout = props => {
-        const { childProps, component, content } = props
+        const { childProps, component, content, host } = props
         expect(childProps).to.deep.equal({ base: true, text: 'My title' })
         expect(component).to.eq('Title')
+        expect(host).to.eq('http://www.example.com')
         expect(content).to.eq('<h1 data-reactroot="" data-reactid="1" data-react-checksum="-863760114">My title</h1>')
         return null
       }
 
-      const renderer = createRenderer({ Layout, components: { Title } })
+      const renderer = createRenderer({ host: 'http://www.example.com', Layout, components: { Title } })
       const render = renderer({ mode: 'HTML', baseProps: { base: true } })
 
       await render('Title', { text: 'My title' })
@@ -83,7 +84,7 @@ describe('Rendering', function () {
       const Layout = props =>
         <section dangerouslySetInnerHTML={{ __html: props.content }} />
 
-      const renderer = createRenderer({ Layout, components: { Title } })
+      const renderer = createRenderer({ host: 'http://www.example.com', Layout, components: { Title } })
       const render = renderer({ mode: 'HTML' })
       const html = await render('Title', { text: 'My title' })
 
@@ -96,7 +97,7 @@ describe('Rendering', function () {
       const Layout = props =>
         <section dangerouslySetInnerHTML={{ __html: props.content }} />
 
-      const renderer = createRenderer({ Layout, components: { BlogPost } })
+      const renderer = createRenderer({ host: 'http://www.example.com', Layout, components: { BlogPost } })
       const render = renderer({ mode: 'HTML', baseProps: { title: 'My title' } })
 
       const html = await render('BlogPost', { body: 'My body' })
@@ -111,7 +112,7 @@ describe('Rendering', function () {
       const Layout = props =>
         <section dangerouslySetInnerHTML={{ __html: props.content }} />
 
-      const renderer = createRenderer({ Layout, components: { Title } })
+      const renderer = createRenderer({ host: 'http://www.example.com', Layout, components: { Title } })
       const render = renderer({ mode: 'JSON' })
       const json = await render('Title', { text: 'My title' })
 
