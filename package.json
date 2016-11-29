@@ -17,6 +17,7 @@
   "license": "ISC",
   "dependencies": {
     "co": "^4.6.0",
+    "extend": "^3.0.0",
     "flatten": "^1.0.2",
     "glob": "^7.1.1",
     "history": "^4.4.0",

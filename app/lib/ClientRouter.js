@@ -1,6 +1,7 @@
 const React = require('react')
 const { connect } = require('react-redux')
 const { createLocation } = require('history')
+const createServerHttp = require('./createServerHttp')
 
 const HISTORY_NOT_PRESENT_ERROR = '<ClientRouter> will not work without a history prop'
 
@@ -19,8 +20,9 @@ class ClientRouter extends React.Component {
       this.props.history.push(location)
     }
 
-    const router = { pushLocation, pushLocationWithPage }
-    return { router }
+    const serverHttp = createServerHttp(pushLocationWithPage)
+
+    return { router: { pushLocation, pushLocationWithPage, serverHttp } }
   }
 
   componentWillMount () {
