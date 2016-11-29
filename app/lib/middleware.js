@@ -1,3 +1,4 @@
+const url = require('url')
 const createRenderer = require('./createRenderer')
 
 const requestMode = req => {
@@ -12,9 +13,10 @@ const responder = (res, mode) => body => {
 }
 
 module.exports = function middleware (rendererOptions) {
-  const renderer = createRenderer(rendererOptions)
-
   return function renderingMiddleware (req, res, next) {
+    const host = url.format({ protocol: req.protocol, host: req.get('host') })
+    const renderer = createRenderer(Object.assign({ host }, rendererOptions))
+
     res.better = {}
 
     res.better.render = function (component, props = {}) {
