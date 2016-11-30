@@ -7,6 +7,7 @@ describe('Exports', function () {
       expect(Object.keys(index)).to.deep.equal([
         'BetterRendersState',
         'ClientRouter',
+        'createClientApp',
         'createRoutingReducer',
         'Form',
         'Link',
