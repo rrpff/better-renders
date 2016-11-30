@@ -44,6 +44,8 @@
     "url-loader": "^0.5.7",
     "url-parse": "^1.1.7",
     "webpack": "^1.13.3",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.2",
     "webpack-isomorphic-tools": "^2.6.4"
   },
   "devDependencies": {
