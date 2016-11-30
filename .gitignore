@@ -1,5 +1,5 @@
 node_modules/
 examples/**/*-compiled.js
-index.js
-server.js
-lib/
+/index.js
+/server.js
+/lib/
