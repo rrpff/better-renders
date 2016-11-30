@@ -1,19 +1,18 @@
 const path = require('path')
-const mkdirp = require('mkdirp')
+const mkdirp = require('mkdirp-promise')
 const filegen = require('../../app/lib/filegen')
+const logger = require('../logger')
 const files = require('../templates')
 
-function create (name, dir = name) {
-  return new Promise((accept, reject) => {
-    const root = path.join(process.cwd(), dir)
-    mkdirp(root, function (err) {
-      if (err) return reject(err)
+async function create (name, dir = name) {
+  const spinner = logger.spinner(`Generating ${name}`)
+  const root = path.join(process.cwd(), dir)
 
-      const context = { name }
-      const gen = filegen({ root, files, context })
-      return gen.then(accept)
-    })
-  })
+  await mkdirp(root)
+  await filegen({ root, files, context: { name } })
+
+  spinner.text = `Generated ${name}`
+  spinner.succeed()
 }
 
 module.exports = create
