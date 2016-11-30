@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "prepublish": "yarn run build",
     "lint": "eslint -c .eslintrc .",
     "test": "NODE_ENV=test mocha test/*.js test/lib/*.js",
+    "build": "babel app/lib --out-dir lib && babel app/index.js --out-file ./index.js && babel app/server.js --out-file ./server.js",
     "build-example": "browserify -t babelify examples/client/index.js -o examples/client/index-compiled.js",
     "watch-example": "watchify -t babelify examples/client/index.js -o examples/client/index-compiled.js",
     "example": "concurrently \"npm run watch-example\" \"http-server examples/client\"",
@@ -15,6 +17,7 @@
   "keywords": [],
   "author": "Richard Foster <richard@rpf.me> (http://rpf.me)",
   "license": "ISC",
+  "main": "index.js",
   "dependencies": {
     "co": "^4.6.0",
     "extend": "^3.0.0",
