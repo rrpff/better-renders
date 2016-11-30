@@ -6,7 +6,7 @@ const files = require('../templates')
 
 async function create (name, dir = name) {
   const spinner = logger.spinner(`Generating ${name}`)
-  const root = path.join(process.cwd(), dir)
+  const root = path.relative(process.cwd(), dir)
 
   await mkdirp(root)
   await filegen({ root, files, context: { name } })
