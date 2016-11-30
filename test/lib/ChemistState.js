@@ -1,13 +1,13 @@
 const React = require('react')
 const { render } = require('enzyme')
-const BetterRendersState = require('../../app/lib/BetterRendersState')
+const ChemistState = require('../../app/lib/ChemistState')
 
 const strip = str => str.replace(/[\s|\n]/g, '')
 
-describe('BetterRendersState', function () {
-  it('should define a __betterState variable in the client application', function () {
+describe('ChemistState', function () {
+  it('should define a __chemistState variable in the client application', function () {
     const wrapper = render(
-      <BetterRendersState
+      <ChemistState
         host="http://www.example.com:3000"
         initialComponent="HomePage"
         initialProps={{ some: 'props' }}
@@ -16,7 +16,7 @@ describe('BetterRendersState', function () {
 
     expect(strip(wrapper.html())).to.eq(strip(`
       <script>
-        window.__betterState = {
+        window.__chemistState = {
           host: 'http://www.example.com:3000',
           initialComponent: 'HomePage',
           initialProps: { some: "props" }

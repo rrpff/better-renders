@@ -22,16 +22,16 @@ describe('Express middleware', function () {
     app.use(rendering({ components: { MessagePage }, Layout }))
 
     app.post('/messages', function (req, res) {
-      res.better.redirect('/message/456')
+      res.chemist.redirect('/message/456')
     })
 
     app.get('/messages/random', function (req, res) {
-      res.better.redirect('/message/789', { status: 301 })
+      res.chemist.redirect('/message/789', { status: 301 })
     })
 
     app.get('/message/:id', function (req, res) {
       const message = 'The sky is blue'
-      res.better.render('MessagePage', { message })
+      res.chemist.render('MessagePage', { message })
     })
 
     return app

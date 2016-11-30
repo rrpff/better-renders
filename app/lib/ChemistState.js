@@ -1,10 +1,10 @@
 const React = require('react')
 const serialize = require('serialize-js')
 
-const BetterRendersState = ({ host, initialComponent, initialProps }) =>
+const ChemistState = ({ host, initialComponent, initialProps }) =>
   <script
     dangerouslySetInnerHTML={{ __html: `
-window.__betterState = {
+window.__chemistState = {
   host: '${host}',
   initialComponent: '${initialComponent}',
   initialProps: ${serialize(initialProps)}
@@ -12,4 +12,4 @@ window.__betterState = {
     ` }}
   />
 
-module.exports = BetterRendersState
+module.exports = ChemistState

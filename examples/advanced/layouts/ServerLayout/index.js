@@ -16,7 +16,7 @@ const ServerLayout = props =>
         {/* TODO: stop hardcoding */}
         <script
           dangerouslySetInnerHTML={{ __html: `
-            window.__betterState = {
+            window.__chemistState = {
               host: 'http://localhost:4000',
               initialComponent: '${props.component}',
               initialProps: ${serialize(props.childProps)}

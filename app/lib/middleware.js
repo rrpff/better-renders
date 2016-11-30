@@ -17,9 +17,9 @@ module.exports = function middleware (rendererOptions) {
     const host = url.format({ protocol: req.protocol, host: req.get('host') })
     const renderer = createRenderer(Object.assign({ host }, rendererOptions))
 
-    res.better = {}
+    res.chemist = {}
 
-    res.better.render = function (component, props = {}) {
+    res.chemist.render = function (component, props = {}) {
       const mode = requestMode(req)
       const baseProps = { params: req.params }
 
@@ -31,7 +31,7 @@ module.exports = function middleware (rendererOptions) {
         .catch(next)
     }
 
-    res.better.redirect = function (path, { status = 302 } = {}) {
+    res.chemist.redirect = function (path, { status = 302 } = {}) {
       res.redirect(status, path)
     }
 

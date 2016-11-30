@@ -5,7 +5,7 @@ describe('Exports', function () {
   describe('index', function () {
     it('exports all public client modules', function () {
       expect(Object.keys(index)).to.deep.equal([
-        'BetterRendersState',
+        'ChemistState',
         'ClientRouter',
         'createClientApp',
         'createRoutingReducer',

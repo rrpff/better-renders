@@ -21,7 +21,7 @@ describe('createClientApp', function () {
   const initialComponent = 'HomePage'
   const initialProps = { title: 'Welcome to the homepage' }
 
-  window.__betterState = { host: HOST, initialComponent, initialProps }
+  window.__chemistState = { host: HOST, initialComponent, initialProps }
 
   it('should initialise a <Provider /> and a <ClientRouter />', function () {
     const { app } = createClientApp({ pages })
@@ -30,13 +30,13 @@ describe('createClientApp', function () {
     expect(wrapper.find('ClientRouter').type().name).to.equal('ClientRouter')
   })
 
-  it('should use the initial component and props defined in window.__betterState when renderered', function () {
+  it('should use the initial component and props defined in window.__chemistState when renderered', function () {
     const { app } = createClientApp({ pages })
     const wrapper = mount(app)
     expect(wrapper.find('.home-page h1').text()).to.eq('Welcome to the homepage')
   })
 
-  it('should make requests to the host defined in window.__betterState when changing the page', function (done) {
+  it('should make requests to the host defined in window.__chemistState when changing the page', function (done) {
     const mock = nock(HOST).get('/about').reply(200, {
       component: 'AboutPage',
       props: { text: 'this is the about page all about us' }

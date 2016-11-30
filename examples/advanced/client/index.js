@@ -11,7 +11,7 @@ const syncHistoryToStore = require('../../../app/lib/syncHistoryToStore')
 const ClientRouter = require('../../../app/lib/ClientRouter')
 const pages = require('../pages')
 
-const { initialComponent, initialProps, host } = window.__betterState
+const { initialComponent, initialProps, host } = window.__chemistState
 
 const reducer = combineReducers({
   routing: createRoutingReducer({

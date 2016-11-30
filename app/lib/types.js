@@ -1,1 +1,1 @@
-exports.SET_LOCATION = '@@better-renders/SET_LOCATION'
+exports.SET_LOCATION = '@@zuren/chemist-rewrite/SET_LOCATION'

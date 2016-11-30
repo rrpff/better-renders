@@ -22,17 +22,17 @@ const User = {
 
 router.get('/users', async function (req, res) {
   const users = await User.all()
-  res.better.render('UserIndexPage', { users })
+  res.chemist.render('UserIndexPage', { users })
 })
 
 router.get('/user/:username', async function (req, res) {
   const user = await User.find(req.params.username)
-  res.better.render('UserShowPage', { user })
+  res.chemist.render('UserShowPage', { user })
 })
 
 router.get('/users/new', async function (req, res) {
   const entry = await userCreateForm()
-  res.better.render('UserCreatePage', { entry })
+  res.chemist.render('UserCreatePage', { entry })
 })
 
 router.post('/users', async function (req, res) {
@@ -40,9 +40,9 @@ router.post('/users', async function (req, res) {
 
   if (entry.valid) {
     const user = await User.create(req.body)
-    res.better.redirect(`/user/${user.username}`)
+    res.chemist.redirect(`/user/${user.username}`)
   } else {
-    res.better.render('UserCreatePage', { entry })
+    res.chemist.render('UserCreatePage', { entry })
   }
 })
 

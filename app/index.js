@@ -1,4 +1,4 @@
-exports.BetterRendersState = require('./lib/BetterRendersState')
+exports.ChemistState = require('./lib/ChemistState')
 exports.ClientRouter = require('./lib/ClientRouter')
 exports.createClientApp = require('./lib/createClientApp')
 exports.createRoutingReducer = require('./lib/createRoutingReducer')

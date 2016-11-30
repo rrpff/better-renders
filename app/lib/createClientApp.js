@@ -8,7 +8,7 @@ const syncHistoryToStore = require('./syncHistoryToStore')
 const ClientRouter = require('./ClientRouter')
 
 function createClientApp ({ history = createBrowserHistory(), pages = {} }) {
-  const { initialComponent, initialProps, host } = window.__betterState
+  const { initialComponent, initialProps, host } = window.__chemistState
 
   const reducer = combineReducers({
     routing: createRoutingReducer({
