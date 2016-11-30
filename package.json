@@ -1,6 +1,6 @@
 {
   "name": "@zuren/chemist-rewrite",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -17,7 +17,6 @@
   "keywords": [],
   "author": "Richard Foster <richard@rpf.me> (http://rpf.me)",
   "license": "ISC",
-  "main": "index.js",
   "dependencies": {
     "co": "^4.6.0",
     "extend": "^3.0.0",
