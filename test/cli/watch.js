@@ -18,7 +18,7 @@ describe('chemist watch', function () {
       watcher.stdout.on('data', async msg => {
         if (msg.includes('[rendered]')) {
           const [js] = msg.toString().match(/(main-[^.]*\.js)/)
-          const host = `${config.dev.application.host}:${config.dev.assetServer.port}`
+          const host = `${config.app.host}:${config.assetServer.port}`
           const pathname = `${config.webpack.output.publicPath}${js}`
           const response = await fetch(`${host}${pathname}`)
           expect(response.ok)

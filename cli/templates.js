@@ -128,24 +128,24 @@ router.use(function (req, res) {
 module.exports = router
 `
 
-templates['app/server/app.js'] = () => `
+templates['app/server/index.js'] = () => `
 const path = require('path')
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const rendering = require('./middleware/rendering')
 
-const app = express()
+const server = express()
 
-app.use(express.static(path.join(__dirname, '../client')))
-app.use(bodyParser.json())
-app.use(cors())
-app.use(rendering())
+server.use(express.static(path.join(__dirname, '../client')))
+server.use(bodyParser.json())
+server.use(cors())
+server.use(rendering())
 
-app.use(require('./controllers/home'))
-app.use(require('./controllers/notFound'))
+server.use(require('./controllers/home'))
+server.use(require('./controllers/notFound'))
 
-module.exports = app
+module.exports = server
 `
 
 templates['app/server/middleware/rendering.js'] = () => `
@@ -160,26 +160,9 @@ function renderingMiddleware () {
 module.exports = renderingMiddleware
 `
 
-templates['app/server/index.js'] = () => `
-if (process.env.NODE_ENV === 'development') {
-  require('piping')()
-}
-
-const app = require('./app')
-
-const HOST = 'http://localhost'
-const PORT = 3000
-
-app.listen(3000, () => {
-  console.log(\`Paste running on http://\${HOST}:\${PORT}\`)
-})
-`
-
-templates['config/app.js'] = () => `
+templates['config/app.js'] = ({ name }) => `
 module.exports = function (config) {
-  config.app = {
-    title: 'Application'
-  }
+  config.title = '${name}'
 }
 `
 

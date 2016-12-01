@@ -44,6 +44,13 @@ function watch ({ directory }) {
   return spawn('node_modules/.bin/babel-node', [cliBinary, 'watch'], { cwd: directory })
 }
 
+function start ({ directory }) {
+  const rootDir = path.join(__dirname, '..', '..')
+  const cliBinary = path.join(path.relative(directory, rootDir), 'cli')
+
+  return spawn('node_modules/.bin/babel-node', [cliBinary, 'start'], { cwd: directory, detached: true })
+}
+
 function remove ({ directory }) {
   return new Promise((accept, reject) => {
     rimraf(directory, function (err) {
@@ -57,4 +64,5 @@ exports.build = build
 exports.install = install
 exports.compile = compile
 exports.watch = watch
+exports.start = start
 exports.remove = remove

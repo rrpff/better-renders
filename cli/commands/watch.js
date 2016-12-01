@@ -7,8 +7,8 @@ const { config } = require('../../app/server')
 
 async function watch () {
   const compiler = webpack(config.webpack)
-  const host = config.dev.application.host
-  const port = config.dev.assetServer.port
+  const host = config.app.host
+  const port = config.assetServer.port
   const app = express()
 
   const serverOptions = {
