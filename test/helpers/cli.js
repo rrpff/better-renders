@@ -60,6 +60,21 @@ function remove ({ directory }) {
   })
 }
 
+before(async function () {
+  this.timeout(5 * 60 * 1000)
+
+  this.name = 'TestApp'
+  this.directory = path.join(__dirname, '..', 'fixtures', this.name)
+  await build({ args: this.name, directory: this.directory })
+  await install({ directory: this.directory })
+})
+
+after(async function () {
+  this.timeout(10 * 1000)
+
+  await remove({ directory: this.directory })
+})
+
 exports.build = build
 exports.install = install
 exports.compile = compile

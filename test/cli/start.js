@@ -1,22 +1,15 @@
-const path = require('path')
 const config = require('../../app/lib/config')
-const { build, install, start, remove } = require('../helpers/cli')
+const { start } = require('../helpers/cli')
 
 describe('chemist start', function () {
   this.timeout(5 * 60 * 1000)
 
   before(async function () {
-    this.name = 'StartApp'
-    this.directory = path.join(__dirname, '..', 'fixtures', this.name)
-    await build({ args: this.name, directory: this.directory })
-    await install({ directory: this.directory })
-
     this.proc = start({ directory: this.directory })
   })
 
   after(async function () {
     process.kill(-this.proc.pid)
-    await remove({ directory: this.directory })
   })
 
   it('should start the application server', function (done) {

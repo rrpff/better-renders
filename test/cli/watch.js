@@ -1,32 +1,28 @@
-const path = require('path')
-const { build, install, watch, remove } = require('../helpers/cli')
+const { watch } = require('../helpers/cli')
 const config = require('../../app/lib/config')
 
 describe('chemist watch', function () {
-  this.timeout(0)
+  this.timeout(5 * 60 * 1000)
 
-  it('should start an asset watch server', async function () {
-    const args = 'WatchApp'
-    const directory = path.join(__dirname, '..', 'fixtures', args)
+  before(async function () {
+    this.proc = watch({ directory: this.directory })
+  })
 
-    await build({ args, directory })
-    await install({ directory })
+  it('should start an asset watch server', function (done) {
+    const checkAssetServer = async msg => {
+      const [js] = msg.toString().match(/(main-[^.]*\.js)/)
+      const host = `${config.app.host}:${config.assetServer.port}`
+      const pathname = `${config.webpack.output.publicPath}${js}`
+      const response = await fetch(`${host}${pathname}`)
+      expect(response.ok)
+      done()
+    }
 
-    const watcher = watch({ directory })
-
-    await new Promise(accept => {
-      watcher.stdout.on('data', async msg => {
-        if (msg.includes('[rendered]')) {
-          const [js] = msg.toString().match(/(main-[^.]*\.js)/)
-          const host = `${config.app.host}:${config.assetServer.port}`
-          const pathname = `${config.webpack.output.publicPath}${js}`
-          const response = await fetch(`${host}${pathname}`)
-          expect(response.ok)
-          accept()
-        }
-      })
+    this.proc.stderr.on('data', done)
+    this.proc.stdout.on('data', msg => {
+      if (msg.includes('[rendered]')) {
+        checkAssetServer(msg).catch(done)
+      }
     })
-
-    await remove({ directory })
   })
 })

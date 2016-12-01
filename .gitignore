@@ -3,3 +3,4 @@ examples/**/*-compiled.js
 /index.js
 /server.js
 /lib/
+test/fixtures/TestApp
