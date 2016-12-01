@@ -1,6 +1,6 @@
 const path = require('path')
 const glob = require('glob')
-const { build, install, compile, remove } = require('../helpers/generation')
+const { build, install, compile, remove } = require('../helpers/cli')
 
 describe('chemist compile', function () {
   this.timeout(0)

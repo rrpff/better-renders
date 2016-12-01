@@ -1,7 +1,7 @@
 const path = require('path')
 const { existsSync } = require('fs')
 const templates = require('../../cli/templates')
-const { build, remove } = require('../helpers/generation')
+const { build, remove } = require('../helpers/cli')
 
 describe('chemist new', function () {
   this.timeout(0)

@@ -1,5 +1,5 @@
 const path = require('path')
-const { exec } = require('child_process')
+const { exec, spawn } = require('child_process')
 const rimraf = require('rimraf')
 
 function build ({ args, directory }) {
@@ -26,12 +26,22 @@ function install ({ directory }) {
 }
 
 function compile ({ directory }) {
+  const rootDir = path.join(__dirname, '..', '..')
+  const cliBinary = path.join(path.relative(directory, rootDir), 'cli')
+
   return new Promise((accept, reject) => {
-    exec('node_modules/.bin/babel-node ../../../cli compile', { cwd: directory }, function (err, stdout, stderr) {
+    exec(`node_modules/.bin/babel-node ${cliBinary} compile`, { cwd: directory }, function (err, stdout, stderr) {
       if (err) reject(err)
       accept({ stdout, stderr })
     })
   })
+}
+
+function watch ({ directory }) {
+  const rootDir = path.join(__dirname, '..', '..')
+  const cliBinary = path.join(path.relative(directory, rootDir), 'cli')
+
+  return spawn('node_modules/.bin/babel-node', [cliBinary, 'watch'], { cwd: directory })
 }
 
 function remove ({ directory }) {
@@ -46,4 +56,5 @@ function remove ({ directory }) {
 exports.build = build
 exports.install = install
 exports.compile = compile
+exports.watch = watch
 exports.remove = remove

@@ -14,7 +14,7 @@ async function watch () {
   const serverOptions = {
     contentBase: `${host}:${port}`,
     quiet: false,
-    noInfo: true,
+    noInfo: false,
     hot: true,
     inline: true,
     lazy: false,
@@ -23,10 +23,7 @@ async function watch () {
     stats: { colors: true }
   }
 
-  const midd = webpackDevMiddleware(compiler, serverOptions)
-  console.log('output path %s', compiler.outputPath)
-  console.log(midd.getFilenameFromUrl('http://localhost/static/dist/main-0271d98f2734c405f780.js'))
-  app.use(midd)
+  app.use(webpackDevMiddleware(compiler, serverOptions))
   app.use(webpackHotMiddleware(compiler))
 
   app.listen(port, function (err) {
