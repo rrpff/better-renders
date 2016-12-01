@@ -5,14 +5,13 @@ const logger = require('../logger')
 const files = require('../templates')
 
 async function create (name, dir = name) {
-  const spinner = logger.spinner(`Generating ${name}`)
   const root = path.relative(process.cwd(), dir)
+  const onFileCreate = file => logger.success(file, 'created')
 
   await mkdirp(root)
-  await filegen({ root, files, context: { name } })
+  await filegen({ root, files, context: { name }, onFileCreate })
 
-  spinner.text = `Generated ${name}`
-  spinner.succeed()
+  logger.done(`${name} is ready!`)
 }
 
 module.exports = create

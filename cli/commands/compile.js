@@ -11,7 +11,8 @@ async function compile () {
     errors.forEach(logger.error)
     warnings.forEach(logger.warn)
 
-    logger.success(`Compiled ${assetsByChunkName.main}`)
+    assetsByChunkName.main.forEach(asset => logger.success(asset, 'created'))
+    logger.done('Compiled assets.')
   })
 }
 

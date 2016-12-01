@@ -31,6 +31,7 @@
     "history": "^4.4.0",
     "isomorphic-fetch": "^2.2.1",
     "json-loader": "^0.5.4",
+    "node-emoji": "^1.4.1",
     "ora": "^0.3.0",
     "piping": "^1.0.0-rc.4",
     "react": "^15.3.2",

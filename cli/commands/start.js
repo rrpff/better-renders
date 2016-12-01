@@ -8,7 +8,7 @@ function start () {
     const app = require(path.join(process.cwd(), 'app', 'server'))
 
     app.listen(config.app.port, function () {
-      logger.success(`${config.title} running on ${config.app.host}:${config.app.port}`)
+      logger.done(`${config.title} running on ${config.app.host}:${config.app.port}`)
     })
   }
 }

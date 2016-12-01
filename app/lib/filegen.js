@@ -1,29 +1,33 @@
 const path = require('path')
 const { writeFile } = require('fs')
-const mkdirp = require('mkdirp')
+const mkdirp = require('mkdirp-promise')
 
 function createFile ({ absolutePath, content }) {
-  return new Promise((accept, reject) => {
+  return new Promise(async (accept, reject) => {
     const directory = path.dirname(absolutePath)
-    mkdirp(directory, function (dirErr) {
-      if (dirErr) return reject(dirErr)
-      return writeFile(absolutePath, content, function (fileErr) {
-        if (fileErr) return reject(fileErr)
-        return accept()
-      })
+    await mkdirp(directory)
+
+    writeFile(absolutePath, content, function (fileErr) {
+      if (fileErr) {
+        reject(fileErr)
+      } else {
+        accept()
+      }
     })
   })
 }
 
-function filegen ({ root, files, context = {} }) {
-  const creators = Object.keys(files).map(filepath => {
-    const content = files[filepath](context)
+function filegen ({ root, files, context = {}, onFileCreate = () => {} }) {
+  const creators = Object.keys(files).map(filePath => {
+    const content = files[filePath](context)
     const stripped = content.replace(/^\s*\n/, '')
 
-    return createFile({
-      absolutePath: path.join(root, filepath),
-      content: stripped
+    const create = createFile({
+      absolutePath: path.join(root, filePath),
+      content: stripped,
     })
+
+    return create.then(() => onFileCreate(filePath))
   })
 
   return Promise.all(creators)

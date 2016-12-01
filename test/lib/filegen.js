@@ -2,6 +2,8 @@ const path = require('path')
 const { readFileSync } = require('fs')
 const mkdirp = require('mkdirp')
 const rimraf = require('rimraf')
+const { spy } = require('sinon')
+const flatten = require('flatten')
 const filegen = require('../../app/lib/filegen')
 
 describe('filegen', function () {
@@ -61,5 +63,16 @@ module.exports = greeting
     await filegen({ root: DIRECTORY, files, context: { name: 'World' } })
 
     expect(require('../fixtures/filegen/context')).to.eq('Hello World')
+  })
+
+  it.only('should call onFileCreate for each file', async function () {
+    const onFileCreate = spy()
+    const files = { 'file.js': () => '', 'nested/file.js': () => '' }
+
+    await filegen({ root: DIRECTORY, files, onFileCreate })
+
+    const args = flatten(onFileCreate.getCalls().map(call => call.args))
+    expect(args).to.include('file.js')
+    expect(args).to.include('nested/file.js')
   })
 })

@@ -30,7 +30,7 @@ async function watch () {
     if (err) {
       logger.error(err)
     } else {
-      logger.success(`Asset server listening on ${host}:${port}`)
+      logger.done(`Asset server listening on ${host}:${port}`)
     }
   })
 }
