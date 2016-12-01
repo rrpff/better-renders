@@ -65,7 +65,7 @@ module.exports = greeting
     expect(require('../fixtures/filegen/context')).to.eq('Hello World')
   })
 
-  it.only('should call onFileCreate for each file', async function () {
+  it('should call onFileCreate for each file', async function () {
     const onFileCreate = spy()
     const files = { 'file.js': () => '', 'nested/file.js': () => '' }
 
