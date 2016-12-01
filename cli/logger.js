@@ -29,7 +29,7 @@ const error = (message, tag = 'error') =>
   log('error', tag, message)
 
 const done = message =>
-  log('error', null, `:sparkles:  ${message}`)
+  log('success', null, `:sparkles:  ${message}`)
 
 const spinner = message =>
   ora(message).start()
