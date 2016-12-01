@@ -1,7 +1,7 @@
 const path = require('path')
-const { config } = require('../../server')
-const logger = require('../logger')
 const pipe = require('piping')
+const logger = require('../logger')
+const config = require('../../lib/config')
 
 function start () {
   if (process.env.NODE_ENV !== 'development' || pipe()) {

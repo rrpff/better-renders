@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const logger = require('../logger')
-const { config } = require('../../server')
+const config = require('../../lib/config')
 
 async function compile () {
   webpack(config.webpack, function (err, stats) {

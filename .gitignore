@@ -1,6 +1,3 @@
-node_modules/
-/index.js
-/server.js
-/cli/
-/lib/
-test/fixtures/TestApp
+node_modules
+/dist
+/test/fixtures/TestApp
