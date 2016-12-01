@@ -22,9 +22,11 @@ describe('Create Config', function () {
 
   it('should raise an error at runtime if a file is not defined', function () {
     const create = () => createConfig([path.join(__dirname, '..', 'fixtures', 'libConfig', 'fakeConfig.js')])
-    const throwAnError = () => createConfig([path.join(__dirname, '..', 'fixtures', 'throwAnError.js')])
-
     expect(create).to.throw('The config file test/fixtures/libConfig/fakeConfig.js does not exist')
+  })
+
+  it('should only catch module not found errors', function () {
+    const throwAnError = () => createConfig([path.join(__dirname, '..', 'fixtures', 'throwAnError.js')])
     expect(throwAnError).to.throw('Some test error')
   })
 })
