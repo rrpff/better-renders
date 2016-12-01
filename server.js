@@ -1,2 +1,6 @@
-exports.config = require('./dist/lib/config')
-exports.middleware = require('./dist/lib/middleware')
+const chemist = require('./dist/lib/chemist')
+
+chemist.config = require('./dist/lib/config')
+chemist.middleware = require('./dist/lib/middleware')
+
+module.exports = chemist

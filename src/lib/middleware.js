@@ -12,10 +12,10 @@ const responder = (res, mode) => body => {
   return null
 }
 
-module.exports = function middleware (rendererOptions) {
+module.exports = function middleware ({ components, Layout } = {}) {
   return function renderingMiddleware (req, res, next) {
     const host = url.format({ protocol: req.protocol, host: req.get('host') })
-    const renderer = createRenderer(Object.assign({ host }, rendererOptions))
+    const renderer = createRenderer({ host, components, Layout })
 
     res.chemist = {}
 

@@ -129,35 +129,13 @@ module.exports = router
 `
 
 templates['app/server/index.js'] = () => `
-const path = require('path')
-const express = require('express')
-const cors = require('cors')
-const bodyParser = require('body-parser')
-const rendering = require('./middleware/rendering')
+const chemist = require('@zuren/chemist-rewrite/server')
+const pages = require('../pages')
+const Layout = require('../layouts/ServerLayout')
 
-const server = express()
-
-server.use(express.static(path.join(__dirname, '../client')))
-server.use(bodyParser.json())
-server.use(cors())
-server.use(rendering())
-
-server.use(require('./controllers/home'))
-server.use(require('./controllers/notFound'))
+const server = chemist({ pages, Layout })
 
 module.exports = server
-`
-
-templates['app/server/middleware/rendering.js'] = () => `
-const rendering = require('@zuren/chemist-rewrite/server').middleware
-const pages = require('../../pages')
-const ServerLayout = require('../../layouts/ServerLayout')
-
-function renderingMiddleware () {
-  return rendering({ components: pages, Layout: ServerLayout })
-}
-
-module.exports = renderingMiddleware
 `
 
 templates['config/app.js'] = ({ name }) => `
@@ -249,7 +227,7 @@ node_modules
 **/index-compiled.js
 `
 
-templates['package.json'] = () => `
+templates['package.json'] = ({ version }) => `
 {
   "name": "application",
   "version": "1.0.0",
@@ -294,7 +272,7 @@ templates['package.json'] = () => `
     "watchify": "^3.7.0"
   },
   "dependencies": {
-    "@zuren/chemist-rewrite": "1.0.1",
+    "@zuren/chemist-rewrite": "${version}",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",

@@ -6,7 +6,7 @@
   "scripts": {
     "prepublish": "yarn run build",
     "lint": "eslint -c .eslintrc .",
-    "test": "NODE_ENV=test mocha test/*.js test/cli/*.js test/lib/*.js",
+    "test": "NODE_ENV=test mocha test/lib/*.js test/cli/*.js",
     "build": "babel src --out-dir dist && chmod u+x dist/cli/index.js"
   },
   "keywords": [],
