@@ -1,50 +1,44 @@
 const path = require('path')
-const { exec } = require('child_process')
 const { existsSync } = require('fs')
-const rimraf = require('rimraf')
-const mkdirp = require('mkdirp')
 const templates = require('../../cli/templates')
+const { build, remove } = require('../helpers/generation')
 
 describe('chemist new', function () {
-  this.timeout(5000)
+  this.timeout(0)
 
   describe('when given a name but not a directory', function () {
-    const APPNAME = 'MyTestApp'
-    const TESTDIR = path.join(process.cwd(), APPNAME)
+    const args = 'MyTestApp'
+    const directory = path.join(process.cwd(), 'test', 'fixtures', args)
 
-    it('should create a directory of the name and generate a new chemist app within', function (done) {
-      exec(`node_modules/.bin/babel-node cli new ${APPNAME}`, function (err) {
-        expect(err).to.eq(null)
+    it('should create a directory of the name and generate a new chemist app within', async function () {
+      await build({ args, directory })
 
-        const filesExistances = Object.keys(templates).map(file => {
-          const absolutePath = path.join(TESTDIR, file)
-          return existsSync(absolutePath)
-        })
-
-        expect(filesExistances).to.not.include(false)
-        rimraf(TESTDIR, done)
+      const filesExistances = Object.keys(templates).map(file => {
+        const absolutePath = path.join(directory, file)
+        return existsSync(absolutePath)
       })
+
+      expect(filesExistances).to.not.include(false)
+
+      await remove({ directory })
     })
   })
 
   describe('when given a name and a directory', function () {
-    it('should generate a new chemist app within the directory specified', function (done) {
-      const APPNAME = 'MyOtherTestApp'
-      const TESTDIR = path.join(process.cwd(), 'test', 'fixtures', 'existing')
+    it('should generate a new chemist app within the directory specified', async function () {
+      const args = 'MyOtherTestApp existing'
+      const directory = path.join(process.cwd(), 'test', 'fixtures', 'existing')
 
-      mkdirp(TESTDIR, function () {
-        exec(`node_modules/.bin/babel-node cli new ${APPNAME} test/fixtures/existing`, function (err) {
-          expect(err).to.eq(null)
+      await build({ args, directory })
 
-          const filesExistances = Object.keys(templates).map(file => {
-            const absolutePath = path.join(TESTDIR, file)
-            return existsSync(absolutePath)
-          })
-
-          expect(filesExistances).to.not.include(false)
-          rimraf(TESTDIR, done)
-        })
+      const filesExistances = Object.keys(templates).map(file => {
+        const absolutePath = path.join(directory, file)
+        return existsSync(absolutePath)
       })
+
+      expect(filesExistances).to.not.include(false)
+
+      await remove({ directory })
     })
   })
 })
