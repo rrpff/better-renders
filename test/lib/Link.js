@@ -1,7 +1,7 @@
 const React = require('react')
 const { spy } = require('sinon')
 const { shallow } = require('enzyme')
-const Link = require('../../app/lib/Link')
+const Link = require('../../src/lib/Link')
 
 describe('Link', function () {
   it('should render an <a> tag with the content given', function () {

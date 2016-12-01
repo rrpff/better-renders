@@ -1,6 +1,6 @@
 const React = require('react')
 const { render } = require('enzyme')
-const ChemistState = require('../../app/lib/ChemistState')
+const ChemistState = require('../../src/lib/ChemistState')
 
 const strip = str => str.replace(/[\s|\n]/g, '')
 

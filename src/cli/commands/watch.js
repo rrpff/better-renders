@@ -3,7 +3,7 @@ const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const logger = require('../logger')
-const { config } = require('../../app/server')
+const { config } = require('../../server')
 
 async function watch () {
   const compiler = webpack(config.webpack)

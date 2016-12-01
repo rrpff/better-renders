@@ -2,7 +2,7 @@ const React = require('react')
 const express = require('express')
 const supertest = require('supertest')
 const sanitize = require('sanitize-html')
-const rendering = require('../../app/lib/middleware')
+const rendering = require('../../src/lib/middleware')
 
 describe('Express middleware', function () {
   function createTestMessagingApp () {

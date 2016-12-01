@@ -5,9 +5,9 @@ const thunk = require('redux-thunk').default
 const { Provider } = require('react-redux')
 const { render } = require('enzyme')
 const createMemoryHistory = require('history/createMemoryHistory').default
-const createRoutingReducer = require('../../app/lib/createRoutingReducer')
-const syncHistoryToStore = require('../../app/lib/syncHistoryToStore')
-const ClientRouter = require('../../app/lib/ClientRouter')
+const createRoutingReducer = require('../../src/lib/createRoutingReducer')
+const syncHistoryToStore = require('../../src/lib/syncHistoryToStore')
+const ClientRouter = require('../../src/lib/ClientRouter')
 
 describe('Client Router', function () {
   describe('when rendering in the app', function () {

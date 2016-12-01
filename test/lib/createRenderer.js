@@ -1,6 +1,6 @@
 const React = require('react')
 const sanitize = require('sanitize-html')
-const createRenderer = require('../../app/lib/createRenderer')
+const createRenderer = require('../../src/lib/createRenderer')
 
 describe('Rendering', function () {
   describe('when rendering a component', function () {

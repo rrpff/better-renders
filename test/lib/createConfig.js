@@ -1,5 +1,5 @@
 const path = require('path')
-const createConfig = require('../../app/lib/createConfig')
+const createConfig = require('../../src/lib/createConfig')
 
 describe('Create Config', function () {
   const config = createConfig([

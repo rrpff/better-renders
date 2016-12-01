@@ -1,4 +1,4 @@
-const config = require('../../app/lib/config')
+const config = require('../../src/lib/config')
 const { start } = require('../helpers/cli')
 
 describe('chemist start', function () {

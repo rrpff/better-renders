@@ -1,5 +1,5 @@
 const { watch } = require('../helpers/cli')
-const config = require('../../app/lib/config')
+const config = require('../../src/lib/config')
 
 describe('chemist watch', function () {
   this.timeout(5 * 60 * 1000)

@@ -1,5 +1,5 @@
-const index = require('../app')
-const server = require('../app/server')
+const index = require('../src')
+const server = require('../src/server')
 
 describe('Exports', function () {
   describe('index', function () {

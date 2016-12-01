@@ -1,6 +1,6 @@
 const path = require('path')
 const { existsSync } = require('fs')
-const templates = require('../../cli/templates')
+const templates = require('../../src/cli/templates')
 const { build, remove } = require('../helpers/cli')
 
 function expectAllFilesToExistIn (directory) {

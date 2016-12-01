@@ -1,6 +1,6 @@
 const nock = require('nock')
 const { spy } = require('sinon')
-const createServerHttp = require('../../app/lib/createServerHttp')
+const createServerHttp = require('../../src/lib/createServerHttp')
 
 describe('createServerHttp', function () {
   it('should call pushLocationWithPage with page data after a response', async function () {

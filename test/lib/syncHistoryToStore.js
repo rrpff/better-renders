@@ -2,8 +2,8 @@ const nock = require('nock')
 const configureMockStore = require('redux-mock-store').default
 const thunk = require('redux-thunk').default
 const createMemoryHistory = require('history/createMemoryHistory').default
-const syncHistoryToStore = require('../../app/lib/syncHistoryToStore')
-const { SET_LOCATION } = require('../../app/lib/types')
+const syncHistoryToStore = require('../../src/lib/syncHistoryToStore')
+const { SET_LOCATION } = require('../../src/lib/types')
 
 describe('Sync History To Store', function () {
   describe('when a page object is not included in the location state', function () {

@@ -1,5 +1,5 @@
 const path = require('path')
-const { config } = require('../../app/server')
+const { config } = require('../../server')
 const logger = require('../logger')
 const pipe = require('piping')
 

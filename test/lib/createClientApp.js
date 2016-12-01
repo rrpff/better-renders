@@ -1,9 +1,9 @@
 const React = require('react')
 const { mount } = require('enzyme')
 const nock = require('nock')
-const createClientApp = require('../../app/lib/createClientApp')
+const createClientApp = require('../../src/lib/createClientApp')
 const createMemoryHistory = require('history/createMemoryHistory').default
-const Link = require('../../app/lib/Link')
+const Link = require('../../src/lib/Link')
 
 const HOST = 'http://www.example.com'
 

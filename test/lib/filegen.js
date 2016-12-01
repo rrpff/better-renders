@@ -4,7 +4,7 @@ const mkdirp = require('mkdirp')
 const rimraf = require('rimraf')
 const { spy } = require('sinon')
 const flatten = require('flatten')
-const filegen = require('../../app/lib/filegen')
+const filegen = require('../../src/lib/filegen')
 
 describe('filegen', function () {
   const DIRECTORY = path.join(__dirname, '..', 'fixtures', 'filegen')

@@ -7,11 +7,16 @@
     "prepublish": "yarn run build",
     "lint": "eslint -c .eslintrc .",
     "test": "NODE_ENV=test mocha test/*.js test/cli/*.js test/lib/*.js",
-    "build": "babel app/lib --out-dir lib && babel app/index.js --out-file ./index.js && babel app/server.js --out-file ./server.js",
+    "build-lib": "babel src/lib --out-dir lib && babel src/index.js --out-file ./index.js && babel src/server.js --out-file ./server.js",
+    "build-cli": "babel src/cli --out-dir cli && chmod u+x cli/index.js",
+    "build": "yarn run build-lib && yarn run build-cli"
   },
   "keywords": [],
   "author": "Richard Foster <richard@rpf.me> (http://rpf.me)",
   "license": "ISC",
+  "bin": {
+    "chemist": "./cli/index.js"
+  },
   "dependencies": {
     "autoprefixer-loader": "^3.2.0",
     "babel-loader": "^6.2.8",

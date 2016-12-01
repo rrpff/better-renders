@@ -1,4 +1,4 @@
-const routeComponentMapper = require('../../app/lib/routeComponentMapper')
+const routeComponentMapper = require('../../src/lib/routeComponentMapper')
 
 describe('Route Component Mapper', function () {
   it('maps routes to components', function () {

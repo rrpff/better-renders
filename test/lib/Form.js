@@ -6,10 +6,10 @@ const { applyMiddleware, createStore, combineReducers } = require('redux')
 const { Provider } = require('react-redux')
 const form = require('serializable-form')
 const createMemoryHistory = require('history/createMemoryHistory').default
-const createRoutingReducer = require('../../app/lib/createRoutingReducer')
-const syncHistoryToStore = require('../../app/lib/syncHistoryToStore')
-const ClientRouter = require('../../app/lib/ClientRouter')
-const { Form, FormInput, FormSubmit } = require('../../app/lib/Form')
+const createRoutingReducer = require('../../src/lib/createRoutingReducer')
+const syncHistoryToStore = require('../../src/lib/syncHistoryToStore')
+const ClientRouter = require('../../src/lib/ClientRouter')
+const { Form, FormInput, FormSubmit } = require('../../src/lib/Form')
 
 const HOST = 'http://www.example.com'
 

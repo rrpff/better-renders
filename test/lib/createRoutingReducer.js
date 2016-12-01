@@ -1,8 +1,8 @@
 const nock = require('nock')
 const { applyMiddleware, createStore, combineReducers } = require('redux')
 const thunk = require('redux-thunk').default
-const createRoutingReducer = require('../../app/lib/createRoutingReducer')
-const { fetchLocation } = require('../../app/lib/actions/routing')
+const createRoutingReducer = require('../../src/lib/createRoutingReducer')
+const { fetchLocation } = require('../../src/lib/actions/routing')
 
 describe('Create Routing Reducer', function () {
   describe('should return a Routing Reducer', function () {

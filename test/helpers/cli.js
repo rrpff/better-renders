@@ -6,7 +6,7 @@ function build ({ args, directory }) {
   const cwd = path.join(directory, '..')
   const rootDir = path.join(__dirname, '..', '..')
   const nodeBinary = path.join(path.relative(cwd, rootDir), 'node_modules', '.bin', 'babel-node')
-  const cliBinary = path.join(path.relative(cwd, rootDir), 'cli')
+  const cliBinary = path.join(path.relative(cwd, rootDir), 'src', 'cli')
 
   return new Promise((accept, reject) => {
     exec(`${nodeBinary} ${cliBinary} new ${args}`, { cwd }, function (err, stdout, stderr) {
@@ -27,7 +27,7 @@ function install ({ directory }) {
 
 function compile ({ directory }) {
   const rootDir = path.join(__dirname, '..', '..')
-  const cliBinary = path.join(path.relative(directory, rootDir), 'cli')
+  const cliBinary = path.join(path.relative(directory, rootDir), 'src', 'cli')
 
   return new Promise((accept, reject) => {
     exec(`node_modules/.bin/babel-node ${cliBinary} compile`, { cwd: directory }, function (err, stdout, stderr) {
@@ -39,14 +39,14 @@ function compile ({ directory }) {
 
 function watch ({ directory }) {
   const rootDir = path.join(__dirname, '..', '..')
-  const cliBinary = path.join(path.relative(directory, rootDir), 'cli')
+  const cliBinary = path.join(path.relative(directory, rootDir), 'src', 'cli')
 
   return spawn('node_modules/.bin/babel-node', [cliBinary, 'watch'], { cwd: directory })
 }
 
 function start ({ directory }) {
   const rootDir = path.join(__dirname, '..', '..')
-  const cliBinary = path.join(path.relative(directory, rootDir), 'cli')
+  const cliBinary = path.join(path.relative(directory, rootDir), 'src', 'cli')
 
   return spawn('node_modules/.bin/babel-node', [cliBinary, 'start'], { cwd: directory, detached: true })
 }
