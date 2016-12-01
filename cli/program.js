@@ -4,12 +4,13 @@ const create = require('./commands/create')
 const compile = require('./commands/compile')
 const start = require('./commands/start')
 const watch = require('./commands/watch')
+const withErrors = require('./helpers/withErrors')
 
 program.version(version)
 
 program
   .command('new <name> [dir]')
-  .action(create)
+  .action(withErrors(create))
 
 program
   .command('start')
@@ -17,10 +18,10 @@ program
 
 program
   .command('compile')
-  .action(compile)
+  .action(withErrors(compile))
 
 program
   .command('watch')
-  .action(watch)
+  .action(withErrors(watch))
 
 module.exports = program
