@@ -89,8 +89,8 @@ before(async function () {
   this.name = 'TestApp'
   this.directory = path.join(__dirname, '..', 'fixtures', this.name)
   await build({ args: this.name, directory: this.directory })
-  await link({ directory: this.directory })
   await install({ directory: this.directory })
+  await link({ directory: this.directory })
 })
 
 after(async function () {
