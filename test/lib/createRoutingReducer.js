@@ -5,6 +5,8 @@ const createRoutingReducer = require('../../src/lib/createRoutingReducer')
 const { fetchLocation } = require('../../src/lib/actions/routing')
 
 describe('Create Routing Reducer', function () {
+  const HOST = 'http://www.example.com'
+
   describe('should return a Routing Reducer', function () {
     const TestComponent = () => null
     const reducer = createRoutingReducer({
@@ -40,7 +42,7 @@ describe('Create Routing Reducer', function () {
           key: 'ignwkm'
         }
 
-        nock('http://localhost:3000')
+        nock(HOST)
           .get('/test')
           .query({ query: true })
           .reply(200, { component: 'TestComponent', props: { query: true } })
@@ -56,7 +58,7 @@ describe('Create Routing Reducer', function () {
           done()
         })
 
-        store.dispatch(fetchLocation({ host: 'http://localhost:3000', location }))
+        store.dispatch(fetchLocation({ host: HOST, location }))
       })
     })
   })

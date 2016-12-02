@@ -14,7 +14,7 @@ describe('Client Router', function () {
     const HomePage = () => <div className="homepage" />
     const AboutPage = () => <div className="aboutpage" />
 
-    const host = 'http://localhost:3000'
+    const host = 'http://www.example.com'
     const history = createMemoryHistory()
     const reducer = combineReducers({
       routing: createRoutingReducer({

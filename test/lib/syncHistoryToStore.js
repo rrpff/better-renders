@@ -8,7 +8,7 @@ const { SET_LOCATION } = require('../../src/lib/types')
 describe('Sync History To Store', function () {
   describe('when a page object is not included in the location state', function () {
     it('should fetch JSON of the new page on history changes', function (done) {
-      const host = 'http://localhost:3000'
+      const host = 'http://www.example.com'
       const history = createMemoryHistory()
       const store = configureMockStore([thunk])({})
 

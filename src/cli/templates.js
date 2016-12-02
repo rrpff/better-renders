@@ -135,6 +135,14 @@ const Layout = require('../layouts/ServerLayout')
 
 const server = chemist({ pages, Layout })
 
+server.get('/', function (req, res) {
+  res.chemist.render('HomePage')
+})
+
+server.use(function (req, res) {
+  res.chemist.render('NotFoundPage')
+})
+
 module.exports = server
 `
 

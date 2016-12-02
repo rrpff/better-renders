@@ -16,6 +16,29 @@ function build ({ args, directory }) {
   })
 }
 
+function link ({ directory }) {
+  return new Promise((accept, reject) => {
+    const chemistLocation = path.join(__dirname, '..', '..')
+    exec('yarn link', { cwd: chemistLocation }, function (err) {
+      if (err) reject(err)
+      exec('yarn link "@zuren/chemist-rewrite"', { cwd: directory }, function (childErr) {
+        if (err) reject(childErr)
+        accept()
+      })
+    })
+  })
+}
+
+function unlink () {
+  return new Promise((accept, reject) => {
+    const chemistLocation = path.join(__dirname, '..', '..')
+    exec('yarn unlink', { cwd: chemistLocation }, function (err) {
+      if (err) reject(err)
+      else accept()
+    })
+  })
+}
+
 function install ({ directory }) {
   return new Promise((accept, reject) => {
     exec('yarn', { cwd: directory }, function (err, stdout, stderr) {
@@ -66,12 +89,13 @@ before(async function () {
   this.name = 'TestApp'
   this.directory = path.join(__dirname, '..', 'fixtures', this.name)
   await build({ args: this.name, directory: this.directory })
+  await link({ directory: this.directory })
   await install({ directory: this.directory })
 })
 
 after(async function () {
   this.timeout(10 * 1000)
-
+  await unlink()
   await remove({ directory: this.directory })
 })
 
