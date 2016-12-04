@@ -5,7 +5,7 @@ const MISSING_COMPONENT_ERROR = 'You must pass a component into render'
 const missingComponentError = name => `The component ${name} is not registered`
 
 function createRenderer ({ host, components = {}, Layout } = {}) {
-  return function renderer ({ mode, baseProps } = {}) {
+  return function renderer ({ mode, baseProps = {}, layoutProps = {} } = {}) {
     return function render (componentName, props = {}) {
       if (!componentName) return Promise.reject(new Error(MISSING_COMPONENT_ERROR))
 
@@ -32,6 +32,7 @@ function createRenderer ({ host, components = {}, Layout } = {}) {
                   component={componentName}
                   childProps={allProps}
                   host={host}
+                  {...layoutProps}
                 />
               )
             }

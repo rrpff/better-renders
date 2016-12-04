@@ -20,10 +20,15 @@ module.exports = function middleware ({ components, Layout } = {}) {
     res.chemist = {}
 
     res.chemist.render = function (component, props = {}) {
+      if (process.env.NODE_ENV === 'development') {
+        global.webpackIsomorphic.refresh()
+      }
+
       const mode = requestMode(req)
       const baseProps = { params: req.params }
+      const layoutProps = { assets: global.webpackIsomorphic.assets() }
 
-      const render = renderer({ mode, baseProps })
+      const render = renderer({ mode, baseProps, layoutProps })
       const respond = responder(res, mode)
 
       render(component, props)

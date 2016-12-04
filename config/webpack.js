@@ -10,21 +10,11 @@ module.exports = function (config) {
   config.webpackIsomorphicTools = {
     assets: {
       images: {
-        extensions: [
-          'jpeg',
-          'jpg',
-          'png',
-          'gif'
-        ],
+        extensions: ['jpeg', 'jpg', 'png', 'gif'],
         parser: WebpackIsomorphicToolsPlugin.url_loader_parser
       },
       fonts: {
-        extensions: [
-          'woff',
-          'woff2',
-          'ttf',
-          'eot'
-        ],
+        extensions: ['woff', 'woff2', 'ttf', 'eot'],
         parser: WebpackIsomorphicToolsPlugin.url_loader_parser
       },
       svg: {
@@ -34,31 +24,22 @@ module.exports = function (config) {
       style_modules: {
         extensions: ['scss'],
         filter (module, regex, options, log) {
-          if (options.development) {
-            return WebpackIsomorphicToolsPlugin.style_loader_filter(module, regex, options, log)
-          }
-
-          return regex.test(module.name)
+          if (!options.development) return regex.test(module.name)
+          return WebpackIsomorphicToolsPlugin.style_loader_filter(module, regex, options, log)
         },
         path (module, options, log) {
-          if (options.development) {
-            return WebpackIsomorphicToolsPlugin.style_loader_path_extractor(module, options, log)
-          }
-
-          return module.name
+          if (!options.development) return module.name
+          return WebpackIsomorphicToolsPlugin.style_loader_path_extractor(module, options, log)
         },
         parser (module, options, log) {
-          if (options.development) {
-            return WebpackIsomorphicToolsPlugin.css_modules_loader_parser(module, options, log)
-          }
-
-          return module.source
+          if (!options.development) return module.source
+          return WebpackIsomorphicToolsPlugin.css_modules_loader_parser(module, options, log)
         }
       }
     }
   }
 
-  const webpackIsomorphicPlugin = new WebpackIsomorphicToolsPlugin(config.webpackIsomorphicTools)
+  config.webpackIsomorphicPlugin = new WebpackIsomorphicToolsPlugin(config.webpackIsomorphicTools)
 
   config.webpack = {}
   config.webpack.devtool = 'source-map'
@@ -110,7 +91,7 @@ module.exports = function (config) {
       loader: 'url?limit=10000&mimetype=image/svg+xml'
     },
     {
-      test: webpackIsomorphicPlugin.regular_expression('images'),
+      test: config.webpackIsomorphicPlugin.regexp('images'),
       loader: 'url-loader?limit=10240'
     }
   ]
@@ -120,7 +101,8 @@ module.exports = function (config) {
     modulesDirectories: ['node_modules'],
     extensions: ['', '.json', '.js', '.jsx']
   }
-  config.webpack.module.plugins = [
+
+  config.webpack.plugins = [
     new CleanPlugin([assetsPath], { root: process.cwd() }),
     new ExtractTextPlugin('[name]-[chunkhash].css', { allChunks: true }),
     new webpack.DefinePlugin({
@@ -132,6 +114,6 @@ module.exports = function (config) {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
-    webpackIsomorphicPlugin
+    config.webpackIsomorphicPlugin
   ]
 }

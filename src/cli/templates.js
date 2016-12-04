@@ -51,7 +51,7 @@ const ServerLayout = props =>
         initialComponent={props.component}
         initialProps={props.childProps}
       />
-      <script type="text/javascript" src="/index-compiled.js" />
+      <script type="text/javascript" src={props.assets.javascript.main} />
     </body>
   </html>
 
@@ -128,7 +128,7 @@ router.use(function (req, res) {
 module.exports = router
 `
 
-templates['app/server/index.js'] = () => `
+templates['app/server/server.js'] = () => `
 const chemist = require('@zuren/chemist-rewrite/server')
 const pages = require('../pages')
 const Layout = require('../layouts/ServerLayout')
@@ -144,6 +144,15 @@ server.use(function (req, res) {
 })
 
 module.exports = server
+`
+
+templates['app/server/index.js'] = () => `
+const { config } = require('@zuren/chemist-rewrite/server')
+const server = require('./server')
+
+server.listen(config.app.port, function () {
+  console.log(\`✨  \${config.title} running on \${config.app.host}:\${config.app.port}\`)
+})
 `
 
 templates['config/app.js'] = ({ name }) => `

@@ -1,15 +1,14 @@
 const path = require('path')
 const pipe = require('piping')
-const logger = require('../logger')
+const WebpackIsomorphicTools = require('webpack-isomorphic-tools')
 const config = require('../../lib/config')
 
 function start () {
   if (process.env.NODE_ENV !== 'development' || pipe()) {
-    const app = require(path.join(process.cwd(), 'app', 'server'))
+    const serverPath = path.join(config.webpack.context, 'app', 'server')
 
-    app.listen(config.app.port, function () {
-      logger.done(`${config.title} running on ${config.app.host}:${config.app.port}`)
-    })
+    global.webpackIsomorphic = new WebpackIsomorphicTools(config.webpackIsomorphicTools)
+      .server(config.webpack.context, () => require(serverPath))
   }
 }
 

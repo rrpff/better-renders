@@ -29,8 +29,9 @@ async function watch () {
   app.listen(port, function (err) {
     if (err) {
       logger.error(err)
+      process.exit(1)
     } else {
-      logger.done(`Asset server listening on ${host}:${port}`)
+      logger.done(`Asset server listening on ${host}:${port}. Prepare for webpack logs...`)
     }
   })
 }
