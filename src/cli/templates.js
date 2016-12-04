@@ -128,7 +128,7 @@ router.use(function (req, res) {
 module.exports = router
 `
 
-templates['app/server/index.js'] = () => `
+templates['app/server/server.js'] = () => `
 const chemist = require('@zuren/chemist-rewrite/server')
 const pages = require('../pages')
 const Layout = require('../layouts/ServerLayout')
@@ -144,6 +144,22 @@ server.use(function (req, res) {
 })
 
 module.exports = server
+`
+
+templates['app/server/index.js'] = () => `
+const { config } = require('@zuren/chemist-rewrite/server')
+const app = require('./app')
+
+module.exports = function (parameters) {
+  console.log('starting with params')
+  console.log(parameters)
+  console.log(arguments)
+
+  app.listen(config.app.port, function () {
+    console.log(\`:sparkles:  \${config.title} running on \${config.app.host}:\${config.app.port}\`)
+  })
+}
+
 `
 
 templates['config/app.js'] = ({ name }) => `

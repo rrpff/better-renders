@@ -2,63 +2,63 @@ const path = require('path')
 const webpack = require('webpack')
 const CleanPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
+// const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
 
 const assetsPath = path.resolve(process.cwd(), './static/dist')
 
 module.exports = function (config) {
-  config.webpackIsomorphicTools = {
-    assets: {
-      images: {
-        extensions: [
-          'jpeg',
-          'jpg',
-          'png',
-          'gif'
-        ],
-        parser: WebpackIsomorphicToolsPlugin.url_loader_parser
-      },
-      fonts: {
-        extensions: [
-          'woff',
-          'woff2',
-          'ttf',
-          'eot'
-        ],
-        parser: WebpackIsomorphicToolsPlugin.url_loader_parser
-      },
-      svg: {
-        extension: 'svg',
-        parser: WebpackIsomorphicToolsPlugin.url_loader_parser
-      },
-      style_modules: {
-        extensions: ['scss'],
-        filter (module, regex, options, log) {
-          if (options.development) {
-            return WebpackIsomorphicToolsPlugin.style_loader_filter(module, regex, options, log)
-          }
-
-          return regex.test(module.name)
-        },
-        path (module, options, log) {
-          if (options.development) {
-            return WebpackIsomorphicToolsPlugin.style_loader_path_extractor(module, options, log)
-          }
-
-          return module.name
-        },
-        parser (module, options, log) {
-          if (options.development) {
-            return WebpackIsomorphicToolsPlugin.css_modules_loader_parser(module, options, log)
-          }
-
-          return module.source
-        }
-      }
-    }
-  }
-
-  const webpackIsomorphicPlugin = new WebpackIsomorphicToolsPlugin(config.webpackIsomorphicTools)
+  // config.webpackIsomorphicTools = {
+  //   assets: {
+  //     images: {
+  //       extensions: [
+  //         'jpeg',
+  //         'jpg',
+  //         'png',
+  //         'gif'
+  //       ],
+  //       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
+  //     },
+  //     fonts: {
+  //       extensions: [
+  //         'woff',
+  //         'woff2',
+  //         'ttf',
+  //         'eot'
+  //       ],
+  //       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
+  //     },
+  //     svg: {
+  //       extension: 'svg',
+  //       parser: WebpackIsomorphicToolsPlugin.url_loader_parser
+  //     },
+  //     style_modules: {
+  //       extensions: ['scss'],
+  //       filter (module, regex, options, log) {
+  //         if (options.development) {
+  //           return WebpackIsomorphicToolsPlugin.style_loader_filter(module, regex, options, log)
+  //         }
+  //
+  //         return regex.test(module.name)
+  //       },
+  //       path (module, options, log) {
+  //         if (options.development) {
+  //           return WebpackIsomorphicToolsPlugin.style_loader_path_extractor(module, options, log)
+  //         }
+  //
+  //         return module.name
+  //       },
+  //       parser (module, options, log) {
+  //         if (options.development) {
+  //           return WebpackIsomorphicToolsPlugin.css_modules_loader_parser(module, options, log)
+  //         }
+  //
+  //         return module.source
+  //       }
+  //     }
+  //   }
+  // }
+  //
+  // const webpackIsomorphicPlugin = new WebpackIsomorphicToolsPlugin(config.webpackIsomorphicTools)
 
   config.webpack = {}
   config.webpack.devtool = 'source-map'
@@ -109,15 +109,15 @@ module.exports = function (config) {
       test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
       loader: 'url?limit=10000&mimetype=image/svg+xml'
     },
-    {
-      test: webpackIsomorphicPlugin.regular_expression('images'),
-      loader: 'url-loader?limit=10240'
-    }
+    // {
+    //   test: webpackIsomorphicPlugin.regular_expression('images'),
+    //   loader: 'url-loader?limit=10240'
+    // }
   ]
 
   config.webpack.module.progress = true
   config.webpack.module.resolve = {
-    modulesDirectories: ['node_modules'],
+    modulesDirectories: ['node_modules', 'app', 'config'],
     extensions: ['', '.json', '.js', '.jsx']
   }
   config.webpack.module.plugins = [
@@ -132,6 +132,6 @@ module.exports = function (config) {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
-    webpackIsomorphicPlugin
+    // webpackIsomorphicPlugin
   ]
 }

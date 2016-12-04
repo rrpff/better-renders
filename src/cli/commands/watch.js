@@ -1,12 +1,19 @@
+const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
+const { clientConfiguration } = require('universal-webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 const logger = require('../logger')
 const config = require('../../lib/config')
 
 async function watch () {
-  const compiler = webpack(config.webpack)
+  const input = path.join(process.cwd(), 'app', 'server')
+  const output = path.join(process.cwd(), 'tmp', 'server', 'bundle.js')
+  const universalSettings = { server: { input, output } }
+  const clientConfig = clientConfiguration(config.webpack, universalSettings)
+
+  const compiler = webpack(clientConfig)
   const host = config.app.host
   const port = config.assetServer.port
   const app = express()
