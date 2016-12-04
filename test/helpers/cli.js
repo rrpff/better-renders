@@ -86,6 +86,13 @@ function remove ({ directory }) {
 before(async function () {
   this.timeout(5 * 60 * 1000)
 
+  global.webpackIsomorphic = {}
+  global.webpackIsomorphic.assets = () => ({
+    javascript: { main: 'bundle.js' },
+    styles: {},
+    assets: {}
+  })
+
   this.name = 'TestApp'
   this.directory = path.join(__dirname, '..', 'fixtures', this.name)
   await build({ args: this.name, directory: this.directory })

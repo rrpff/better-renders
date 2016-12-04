@@ -11,7 +11,13 @@ async function compile () {
     errors.forEach(logger.error)
     warnings.forEach(logger.warn)
 
-    assetsByChunkName.main.forEach(asset => logger.success(asset, 'created'))
+    const assets = Object.keys(assetsByChunkName).reduce((acc, key) => {
+      const value = assetsByChunkName[key]
+      const entries = Array.isArray(value) ? value : [value]
+      return acc.concat(entries)
+    }, [])
+
+    assets.forEach(asset => logger.success(asset, 'created'))
     logger.done('Compiled assets.')
   })
 }
