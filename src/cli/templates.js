@@ -1,12 +1,55 @@
 const templates = {}
 
+templates['app/client/reducers/index.js'] = () => `
+const { combineReducers } = require('redux')
+const { createRoutingReducer } = require('@zuren/chemist-rewrite')
+const pages = require('../')
+
+const { initialComponent, initialProps } = window.__chemistState
+
+const routing = createRoutingReducer({
+  components: pages,
+  initialComponent,
+  initialProps
+})
+
+const reducer = combineReducers({ routing })
+
+module.exports = reducer
+`
+
 templates['app/client/index.js'] = () => `
 require('babel-polyfill')
-const ReactDOM = require('react-dom')
-const { createClientApp } = require('@zuren/chemist-rewrite')
-const pages = require('../pages')
 
-const { app } = createClientApp({ pages })
+const React = require('react')
+const ReactDOM = require('react-dom')
+const { applyMiddleware, createStore } = require('redux')
+const thunk = require('redux-thunk').default
+const { Provider } = require('react-redux')
+const { ClientRouter, syncHistoryToStore } = require('@zuren/chemist-rewrite')
+const createBrowserHistory = require('history/createBrowserHistory').default
+const reducer = require('./reducers')
+
+const { host } = window.__chemistState
+const middlewares = applyMiddleware(thunk)
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+const store = createStore(reducer, devTools, middlewares)
+const history = createBrowserHistory()
+
+syncHistoryToStore({ history, store, host })
+
+if (process.env.NODE_ENV === 'development' && module.hot) {
+  module.hot.accept('./reducers', () => {
+    store.replaceReducer(require('./reducers'))
+  })
+}
+
+const app = (
+  <Provider store={store}>
+    <ClientRouter history={history} />
+  </Provider>
+)
+
 const root = document.getElementById('root')
 
 ReactDOM.render(app, root)
@@ -184,8 +227,23 @@ test/helpers/*.js
 
 templates['.babelrc'] = () => `
 {
-  "presets": ["react", "latest"]
+  "presets": ["react", "latest"],
+  "env": {
+    "development": {
+      "plugins": [
+        [
+          "react-transform",
+          {
+            "transform": "react-transform-hmr",
+            "imports": "react",
+            "locals": "module"
+          }
+        ]
+      ]
+    }
+  }
 }
+
 `
 
 templates['.eslintrc'] = () => `
@@ -265,6 +323,7 @@ templates['package.json'] = ({ version }) => `
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
     "babel-polyfill": "^6.16.0",
+    "babel-plugin-react-transform": "^2.0.2",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
     "babelify": "^7.3.0",
@@ -284,6 +343,7 @@ templates['package.json'] = ({ version }) => `
     "nock-vcr-recorder": "^0.1.5",
     "piping": "^1.0.0-rc.4",
     "react-addons-test-utils": "^15.4.1",
+    "react-transform-hmr": "^1.0.4",
     "supertest": "^2.0.1",
     "supertest-as-promised": "^4.0.2",
     "watchify": "^3.7.0"
