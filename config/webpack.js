@@ -39,7 +39,7 @@ module.exports = function (config) {
     }
   }
 
-  config.webpackIsomorphicPlugin = new WebpackIsomorphicToolsPlugin(config.webpackIsomorphicTools)
+  const webpackIsomorphicPlugin = new WebpackIsomorphicToolsPlugin(config.webpackIsomorphicTools)
 
   config.webpack = {}
   config.webpack.devtool = 'source-map'
@@ -91,7 +91,7 @@ module.exports = function (config) {
       loader: 'url?limit=10000&mimetype=image/svg+xml'
     },
     {
-      test: config.webpackIsomorphicPlugin.regexp('images'),
+      test: webpackIsomorphicPlugin.regexp('images'),
       loader: 'url-loader?limit=10240'
     }
   ]
@@ -114,6 +114,6 @@ module.exports = function (config) {
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ compress: { warnings: false } }),
-    config.webpackIsomorphicPlugin
+    webpackIsomorphicPlugin
   ]
 }
