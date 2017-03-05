@@ -269,35 +269,25 @@ node_modules
 webpack-assets.json
 `
 
-templates['package.json'] = ({ version }) => `
+templates['package.json'] = ({ name, version }) => `
 {
-  "name": "application",
-  "version": "1.0.0",
-  "description": "Application",
+  "name": "${name}",
   "private": true,
-  "main": "index.js",
   "scripts": {
     "lint": "eslint -c .eslintrc .",
-    "build": "browserify -t babelify app/client/index.js -o app/client/index-compiled.js",
-    "watch": "watchify -t babelify app/client/index.js -o app/client/index-compiled.js",
-    "dev": "NODE_ENV=development concurrently \\"npm run watch\\" \\"babel-node app/server\\"",
-    "test": "mocha --recursive test/server test/pages"
+    "build": "NODE_ENV=production ../dist/cli/index.js compile",
+    "start": "NODE_ENV=production ../dist/cli/index.js start",
+    "dev": "NODE_ENV=development concurrently \"../dist/cli/index.js watch\" \"../dist/cli/index.js start\"",
+    "test": "mocha test/**/*.test.js"
   },
-  "keywords": [],
-  "author": "Richard Foster <richard@rpf.me> (http://rpf.me)",
   "devDependencies": {
-    "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
     "babel-polyfill": "^6.16.0",
-    "babel-plugin-react-transform": "^2.0.2",
     "babel-preset-latest": "^6.16.0",
     "babel-preset-react": "^6.16.0",
-    "babelify": "^7.3.0",
-    "browserify": "^13.1.1",
     "chai": "^3.5.0",
     "concurrently": "^3.1.0",
-    "enzyme": "^2.6.0",
     "eslint": "^3.11.0",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
@@ -306,14 +296,7 @@ templates['package.json'] = ({ version }) => `
     "eslint-plugin-react": "^6.7.1",
     "jsdom": "^9.8.3",
     "mocha": "^3.2.0",
-    "nock": "^9.0.2",
-    "nock-vcr-recorder": "^0.1.5",
-    "piping": "^1.0.0-rc.4",
-    "react-addons-test-utils": "^15.4.1",
-    "react-transform-hmr": "^1.0.4",
-    "supertest": "^2.0.1",
-    "supertest-as-promised": "^4.0.2",
-    "watchify": "^3.7.0"
+    "react-addons-test-utils": "^15.4.1"
   },
   "dependencies": {
     "@zuren/chemist-rewrite": "${version}",
@@ -328,6 +311,7 @@ templates['package.json'] = ({ version }) => `
     "redux-thunk": "^2.1.0"
   }
 }
+
 `
 
 module.exports = templates
