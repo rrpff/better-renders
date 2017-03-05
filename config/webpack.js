@@ -4,9 +4,9 @@ const CleanPlugin = require('clean-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin')
 
-const assetsPath = path.resolve(process.cwd(), './static/dist')
-
 module.exports = function (config) {
+  const assetsPath = path.resolve(process.cwd(), config.staticPath, 'dist')
+
   config.webpackIsomorphicTools = {
     assets: {
       images: {

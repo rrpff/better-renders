@@ -12,4 +12,6 @@ module.exports = function (config) {
     host: 'http://localhost',
     port: 3001
   }
+
+  config.staticPath = './static'
 }
