@@ -7,7 +7,7 @@ const rendering = require('./middleware')
 function chemist ({ pages = {}, Layout } = {}) {
   const app = express()
 
-  app.use(express.static(path.join(process.cwd(), '../client')))
+  app.use(express.static(path.join(process.cwd(), './static')))
   app.use(bodyParser.json())
   app.use(cors())
   app.use(rendering({ components: pages, Layout }))
