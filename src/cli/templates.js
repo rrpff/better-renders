@@ -266,6 +266,7 @@ templates['.eslintrc'] = () => `
 templates['.gitignore'] = () => `
 node_modules
 **/index-compiled.js
+webpack-assets.json
 `
 
 templates['package.json'] = ({ version }) => `
