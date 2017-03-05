@@ -14,8 +14,7 @@ const responder = (res, mode) => body => {
 
 module.exports = function middleware ({ components, Layout } = {}) {
   return function renderingMiddleware (req, res, next) {
-    const host = url.format({ protocol: req.protocol, host: req.get('host') })
-    const renderer = createRenderer({ host, components, Layout })
+    const renderer = createRenderer({ components, Layout })
 
     res.chemist = {}
 

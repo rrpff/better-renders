@@ -4,7 +4,7 @@ const ReactDOM = require('react-dom/server')
 const MISSING_COMPONENT_ERROR = 'You must pass a component into render'
 const missingComponentError = name => `The component ${name} is not registered`
 
-function createRenderer ({ host, components = {}, Layout } = {}) {
+function createRenderer ({ components = {}, Layout } = {}) {
   return function renderer ({ mode, baseProps = {}, layoutProps = {} } = {}) {
     return function render (componentName, props = {}) {
       if (!componentName) return Promise.reject(new Error(MISSING_COMPONENT_ERROR))
@@ -31,7 +31,6 @@ function createRenderer ({ host, components = {}, Layout } = {}) {
                   content={content}
                   component={componentName}
                   childProps={allProps}
-                  host={host}
                   {...layoutProps}
                 />
               )

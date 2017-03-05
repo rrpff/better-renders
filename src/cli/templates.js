@@ -31,13 +31,12 @@ const { ClientRouter, syncHistoryToStore } = require('@zuren/chemist-rewrite')
 const createBrowserHistory = require('history/createBrowserHistory').default
 const reducer = require('./reducers')
 
-const { host } = window.__chemistState
 const middlewares = applyMiddleware(thunk)
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 const store = createStore(reducer, devTools, middlewares)
 const history = createBrowserHistory()
 
-syncHistoryToStore({ history, store, host })
+syncHistoryToStore({ history, store })
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./reducers', () => {
@@ -84,7 +83,6 @@ const ServerLayout = props =>
     <body>
       <Layout content={props.content} />
       <ChemistState
-        host={props.host}
         initialComponent={props.component}
         initialProps={props.childProps}
       />

@@ -1,6 +1,8 @@
 const { setLocation, fetchLocation } = require('./actions/routing')
 
-module.exports = function syncHistoryToStore ({ history, store, host }) {
+module.exports = function syncHistoryToStore ({ history, store }) {
+  const host = `${window.location.protocol}//${window.location.host}`
+
   history.listen(location => {
     const page = location.state && location.state.page
 
