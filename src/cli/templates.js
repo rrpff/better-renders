@@ -3,7 +3,7 @@ const templates = {}
 templates['app/client/reducers/index.js'] = () => `
 const { combineReducers } = require('redux')
 const { createRoutingReducer } = require('@zuren/chemist-rewrite')
-const pages = require('../')
+const pages = require('../../pages')
 
 const { initialComponent, initialProps } = window.__chemistState
 
@@ -16,6 +16,7 @@ const routing = createRoutingReducer({
 const reducer = combineReducers({ routing })
 
 module.exports = reducer
+
 `
 
 templates['app/client/index.js'] = () => `
