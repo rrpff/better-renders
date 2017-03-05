@@ -5,9 +5,9 @@ const createConfig = require('./createConfig')
 
 const files = flatten([
   glob.sync(path.join(__dirname, '..', '..', 'config', '*.js')),
-  glob.sync(path.join(__dirname, '..', '..', 'config', 'environments', '*.js')),
+  glob.sync(path.join(__dirname, '..', '..', 'config', 'environments', `${process.env.NODE_ENV}.js`)),
   glob.sync(path.join(process.cwd(), 'config', '*.js')),
-  glob.sync(path.join(process.cwd(), 'config', 'environments', '*.js'))
+  glob.sync(path.join(process.cwd(), 'config', 'environments', `${process.env.NODE_ENV}.js`))
 ])
 
 module.exports = createConfig(files)
