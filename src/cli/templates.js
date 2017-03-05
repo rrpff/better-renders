@@ -54,14 +54,7 @@ const app = (
 const root = document.getElementById('root')
 
 ReactDOM.render(app, root)
-`
 
-templates['app/components/Component/index.js'] = () => `
-const React = require('react')
-
-class Component extends React.Component {}
-
-module.exports = Component
 `
 
 templates['app/layouts/Layout/index.js'] = () => `
@@ -104,9 +97,8 @@ module.exports = ServerLayout
 
 templates['app/pages/HomePage/index.js'] = () => `
 const React = require('react')
-const Page = require('../Page')
 
-class HomePage extends Page {
+class HomePage extends React.Component {
   render () {
     return (
       <h1>Welcome to Chemist!</h1>
@@ -119,9 +111,8 @@ module.exports = HomePage
 
 templates['app/pages/NotFoundPage/index.js'] = () => `
 const React = require('react')
-const Page = require('../Page')
 
-class NotFoundPage extends Page {
+class NotFoundPage extends React.Component {
   render () {
     return (
       <article>
@@ -133,14 +124,6 @@ class NotFoundPage extends Page {
 }
 
 module.exports = NotFoundPage
-`
-
-templates['app/pages/Page/index.js'] = () => `
-const React = require('react')
-
-class Page extends React.Component {}
-
-module.exports = Page
 `
 
 templates['app/pages/index.js'] = () => `
