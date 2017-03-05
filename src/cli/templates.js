@@ -207,21 +207,7 @@ test/helpers/*.js
 
 templates['.babelrc'] = () => `
 {
-  "presets": ["react", "latest"],
-  "env": {
-    "development": {
-      "plugins": [
-        [
-          "react-transform",
-          {
-            "transform": "react-transform-hmr",
-            "imports": "react",
-            "locals": "module"
-          }
-        ]
-      ]
-    }
-  }
+  "presets": ["react", "latest"]
 }
 
 `
