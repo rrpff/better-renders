@@ -277,7 +277,7 @@ templates['package.json'] = ({ name, version }) => `
     "lint": "eslint -c .eslintrc .",
     "build": "NODE_ENV=production ../dist/cli/index.js compile",
     "start": "NODE_ENV=production ../dist/cli/index.js start",
-    "dev": "NODE_ENV=development concurrently \"../dist/cli/index.js watch\" \"../dist/cli/index.js start\"",
+    "dev": "NODE_ENV=development concurrently \\"../dist/cli/index.js watch\\" \\"../dist/cli/index.js start\\"",
     "test": "mocha test/**/*.test.js"
   },
   "devDependencies": {
