@@ -5,8 +5,6 @@ const createClientApp = require('../../src/lib/createClientApp')
 const createMemoryHistory = require('history/createMemoryHistory').default
 const Link = require('../../src/lib/Link')
 
-const HOST = 'http://www.example.com'
-
 describe('createClientApp', function () {
   const HomePage = props =>
     <div className="home-page">
@@ -21,7 +19,7 @@ describe('createClientApp', function () {
   const initialComponent = 'HomePage'
   const initialProps = { title: 'Welcome to the homepage' }
 
-  window.__chemistState = { host: HOST, initialComponent, initialProps }
+  window.__chemistState = { initialComponent, initialProps }
 
   it('should initialise a <Provider /> and a <ClientRouter />', function () {
     const { app } = createClientApp({ pages })
@@ -36,8 +34,8 @@ describe('createClientApp', function () {
     expect(wrapper.find('.home-page h1').text()).to.eq('Welcome to the homepage')
   })
 
-  it('should make requests to the host defined in window.__chemistState when changing the page', function (done) {
-    const mock = nock(HOST).get('/about').reply(200, {
+  it.only('should make requests to the current host when changing the page', function (done) {
+    const mock = nock('http://www.example.com').log(console.log).get('/about').reply(200, {
       component: 'AboutPage',
       props: { text: 'this is the about page all about us' }
     })
@@ -46,14 +44,14 @@ describe('createClientApp', function () {
     const { app, store } = createClientApp({ history, pages })
     const wrapper = mount(app)
 
-    const link = wrapper.find('a')
-    link.simulate('click')
-
     store.subscribe(function () {
       mock.done()
       expect(wrapper.text()).to.eq('this is the about page all about us')
       done()
     })
+
+    const link = wrapper.find('a')
+    link.simulate('click')
   })
 
   it('should create a redux store', function () {

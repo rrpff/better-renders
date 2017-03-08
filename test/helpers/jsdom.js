@@ -1,6 +1,6 @@
 const { jsdom } = require('jsdom')
 
-global.document = jsdom('')
+global.document = jsdom('', { url: 'http://www.example.com' })
 global.window = document.defaultView
 
 global.navigator = {
