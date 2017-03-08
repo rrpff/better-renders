@@ -11,7 +11,7 @@ function fetchLocation ({ host, location }) {
       .then(res => res.json())
       .then(({ component, props }) => dispatch(setLocation({ location, component, props })))
       // TODO: handle this error properly
-      .catch(err => { throw err })
+      .catch(err => console.error(err))
   }
 }
 
