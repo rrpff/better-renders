@@ -6,7 +6,7 @@ function setLocation ({ location, component, props }) {
 
 function fetchLocation ({ host, location }) {
   return dispatch => {
-    const path = host + location.pathname
+    const path = host + location.pathname + location.search
     fetch(path, { headers: { Accept: 'application/json' } })
       .then(res => res.json())
       .then(({ component, props }) => dispatch(setLocation({ location, component, props })))
