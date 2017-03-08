@@ -1,6 +1,6 @@
 const path = require('path')
 const mkdirp = require('mkdirp-promise')
-const filegen = require('../../lib/filegen')
+const filegen = require('../../../filegen')
 const logger = require('../logger')
 const files = require('../templates')
 const pkg = require('../../../package.json')
