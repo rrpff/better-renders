@@ -64,7 +64,7 @@ describe('Express middleware', function () {
             .expect(200)
             .expect(function (res) {
               expect(res.body).to.deep.equal({
-                component: 'MessagePage',
+                page: 'MessagePage',
                 props: {
                   params: { id: '123' },
                   message: 'The sky is blue'
