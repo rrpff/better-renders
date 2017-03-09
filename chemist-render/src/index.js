@@ -19,7 +19,7 @@ function renderHtml ({ Document, PageComponent, page, props }) {
       <Document
         content={content}
         page={page}
-        props={props}
+        pageProps={props}
         {...layoutProps}
       />
     )

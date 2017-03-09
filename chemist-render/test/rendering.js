@@ -49,6 +49,33 @@ test('when the mode is JSON it should render the page as JSON', async t => {
   })
 })
 
+test.cb('the Document component should receive all the props necessary to render the page', t => {
+  const expectedLayoutProps = {
+    assets: {},
+    content: '<article data-reactroot="" data-reactid="1" data-react-checksum="-360692236"><h1 data-reactid="2">The sky is blue</h1><p data-reactid="3"><!-- react-text: 4 -->This is message ID <!-- /react-text --><!-- react-text: 5 -->123<!-- /react-text --></p></article>',
+    page: 'Message',
+    pageProps: {
+      message: 'The sky is blue',
+      params: { id: 123 }
+    }
+  }
+
+  const SpyDocument = props => {
+    t.deepEqual(props, expectedLayoutProps)
+    t.end()
+
+    return <div />
+  }
+
+  render({
+    mode: 'HTML',
+    pages: { Message },
+    page: 'Message',
+    props: { message: 'The sky is blue', params: { id: 123 } },
+    Document: SpyDocument
+  })
+})
+
 test('when the page prop is not passed in', async t => {
   const error = await t.throws(render({}))
   t.is(error.message, 'You must pass a `page` option into render')
