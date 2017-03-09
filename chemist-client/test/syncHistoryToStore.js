@@ -18,14 +18,14 @@ test.cb('When a page object is not included in the location state, should fetch 
   nock(host)
     .get('/test')
     .query({ query: true })
-    .reply(200, { component: 'TestPage', props: {} })
+    .reply(200, { page: 'TestPage', props: {} })
 
   store.subscribe(function () {
     const [action] = store.getActions()
 
     t.is(SET_LOCATION, action.type)
     t.is('/test', action.location.pathname)
-    t.is('TestPage', action.component)
+    t.is('TestPage', action.page)
     t.deepEqual({}, action.props)
     t.end()
   })
@@ -47,13 +47,13 @@ test.cb('When a page object is included in the location state, should fetch JSON
 
     t.is(SET_LOCATION, action.type)
     t.is('/existing', action.location.pathname)
-    t.is('MyExistingPage', action.component)
+    t.is('MyExistingPage', action.page)
     t.deepEqual({ existing: true }, action.props)
     t.end()
   })
 
   const page = {
-    component: 'MyExistingPage',
+    page: 'MyExistingPage',
     props: { existing: true }
   }
 

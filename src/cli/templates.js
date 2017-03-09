@@ -5,14 +5,8 @@ const { combineReducers } = require('redux')
 const { createRoutingReducer } = require('@zuren/chemist-rewrite')
 const pages = require('../../pages')
 
-const { initialComponent, initialProps } = window.__chemistState
-
-const routing = createRoutingReducer({
-  components: pages,
-  initialComponent,
-  initialProps
-})
-
+const { initialPage, initialProps } = window.__chemistState
+const routing = createRoutingReducer({ pages, initialPage, initialProps })
 const reducer = combineReducers({ routing })
 
 module.exports = reducer
@@ -83,8 +77,8 @@ const ServerLayout = props =>
     <body>
       <Layout content={props.content} />
       <ChemistState
-        initialComponent={props.component}
-        initialProps={props.childProps}
+        initialPage={props.page}
+        initialProps={props.pageProps}
       />
       <script type="text/javascript" src={props.assets.javascript.main} />
     </body>

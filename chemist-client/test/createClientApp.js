@@ -16,10 +16,10 @@ const AboutPage = props =>
   <div>{props.text}</div>
 
 const pages = { HomePage, AboutPage }
-const initialComponent = 'HomePage'
+const initialPage = 'HomePage'
 const initialProps = { title: 'Welcome to the homepage' }
 
-window.__chemistState = { initialComponent, initialProps }
+window.__chemistState = { initialPage, initialProps }
 
 test('createClientApp should initialise a <Provider /> and a <ClientRouter />', t => {
   const { app } = createClientApp({ pages })
@@ -28,7 +28,7 @@ test('createClientApp should initialise a <Provider /> and a <ClientRouter />', 
   t.is('ClientRouter', wrapper.find('ClientRouter').type().name)
 })
 
-test('createClientApp should use the initial component and props defined in window.__chemistState when renderered', t => {
+test('createClientApp should use the initial page and props defined in window.__chemistState when renderered', t => {
   const { app } = createClientApp({ pages })
   const wrapper = mount(app)
   t.is('Welcome to the homepage', wrapper.find('.home-page h1').text())
@@ -38,7 +38,7 @@ test.cb('createClientApp should make requests to the current host when changing 
   t.plan(1)
 
   const mock = nock('http://www.example.com').get('/about').reply(200, {
-    component: 'AboutPage',
+    page: 'AboutPage',
     props: { text: 'this is the about page all about us' }
   })
 

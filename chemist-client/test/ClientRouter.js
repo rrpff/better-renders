@@ -17,8 +17,8 @@ const host = 'http://www.example.com'
 const history = createMemoryHistory()
 const reducer = combineReducers({
   routing: createRoutingReducer({
-    components: { HomePage, AboutPage },
-    initialComponent: 'HomePage',
+    pages: { HomePage, AboutPage },
+    initialPage: 'HomePage',
     initialProps: {}
   })
 })
@@ -40,10 +40,10 @@ test('Client Router should only default to the homepage', t => {
   t.is(0, wrapper.find('.aboutpage').length)
 })
 
-test.cb('Client Router should only render the component for the current URL', t => {
+test.cb('Client Router should only render the page for the current URL', t => {
   t.plan(2)
 
-  nock(host).get('/about').reply(200, { component: 'AboutPage', props: {} })
+  nock(host).get('/about').reply(200, { page: 'AboutPage', props: {} })
   history.push({ pathname: '/about' })
 
   store.subscribe(function () {

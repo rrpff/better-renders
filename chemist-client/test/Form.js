@@ -44,8 +44,8 @@ test.cb('When submitting the Form, it should call the given action so the page w
   const history = createMemoryHistory()
   const reducer = combineReducers({
     routing: createRoutingReducer({
-      components: { GuestbookIndexPage, GuestbookCreatePage },
-      initialComponent: 'GuestbookCreatePage',
+      pages: { GuestbookIndexPage, GuestbookCreatePage },
+      initialPage: 'GuestbookCreatePage',
       initialProps: {}
     })
   })
@@ -56,7 +56,7 @@ test.cb('When submitting the Form, it should call the given action so the page w
   syncHistoryToStore({ history, store, host: HOST })
 
   const endpoint = nock(HOST).post('/guestbook').query({ withQuery: true }).reply(200, {
-    component: 'GuestbookIndexPage',
+    page: 'GuestbookIndexPage',
     props: { posts: ['My message'] }
   })
 

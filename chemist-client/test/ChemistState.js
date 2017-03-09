@@ -8,7 +8,7 @@ const strip = str => str.replace(/[\s|\n]/g, '')
 test('ChemistState should define a __chemistState variable in the client application', t => {
   const wrapper = render(
     <ChemistState
-      initialComponent="HomePage"
+      initialPage="HomePage"
       initialProps={{ some: 'props' }}
     />
   )
@@ -16,7 +16,7 @@ test('ChemistState should define a __chemistState variable in the client applica
   t.is(strip(wrapper.html()), strip(`
     <script>
       window.__chemistState = {
-        initialComponent: 'HomePage',
+        initialPage: 'HomePage',
         initialProps: { some: "props" }
       };
     </script>

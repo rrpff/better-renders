@@ -10,8 +10,8 @@ const HOST = 'http://www.example.com'
 test('createRoutingReducer should create a new Routing Reducer', t => {
   const TestComponent = () => null
   const reducer = createRoutingReducer({
-    components: { TestComponent },
-    initialComponent: 'TestComponent',
+    pages: { TestComponent },
+    initialPage: 'TestComponent',
     initialProps: {}
   })
 
@@ -25,8 +25,8 @@ test.cb('Routing Reducer should call fetchLocation and set the current component
 
   const reducer = combineReducers({
     routing: createRoutingReducer({
-      components: { TestComponent },
-      initialComponent: 'TestComponent',
+      pages: { TestComponent },
+      initialPage: 'TestComponent',
       initialProps: {}
     })
   })
@@ -45,12 +45,12 @@ test.cb('Routing Reducer should call fetchLocation and set the current component
   nock(HOST)
     .get('/test')
     .query({ query: true })
-    .reply(200, { component: 'TestComponent', props: { query: true } })
+    .reply(200, { page: 'TestComponent', props: { query: true } })
 
   store.subscribe(function () {
     t.deepEqual(store.getState(), {
       routing: {
-        Component: TestComponent,
+        Page: TestComponent,
         props: { query: true }
       }
     })
