@@ -5,14 +5,8 @@ const { combineReducers } = require('redux')
 const { createRoutingReducer } = require('@zuren/chemist-rewrite')
 const pages = require('../../pages')
 
-const { initialComponent, initialProps } = window.__chemistState
-
-const routing = createRoutingReducer({
-  components: pages,
-  initialComponent,
-  initialProps
-})
-
+const { initialPage, initialProps } = window.__chemistState
+const routing = createRoutingReducer({ pages, initialPage, initialProps })
 const reducer = combineReducers({ routing })
 
 module.exports = reducer
@@ -83,8 +77,8 @@ const ServerLayout = props =>
     <body>
       <Layout content={props.content} />
       <ChemistState
-        initialComponent={props.component}
-        initialProps={props.childProps}
+        initialPage={props.page}
+        initialProps={props.pageProps}
       />
       <script type="text/javascript" src={props.assets.javascript.main} />
     </body>
@@ -93,10 +87,10 @@ const ServerLayout = props =>
 module.exports = ServerLayout
 `
 
-templates['app/pages/HomePage/index.js'] = () => `
+templates['app/pages/Home/index.js'] = () => `
 const React = require('react')
 
-class HomePage extends React.Component {
+class Home extends React.Component {
   render () {
     return (
       <h1>Welcome to Chemist!</h1>
@@ -104,13 +98,13 @@ class HomePage extends React.Component {
   }
 }
 
-module.exports = HomePage
+module.exports = Home
 `
 
-templates['app/pages/NotFoundPage/index.js'] = () => `
+templates['app/pages/NotFound/index.js'] = () => `
 const React = require('react')
 
-class NotFoundPage extends React.Component {
+class NotFound extends React.Component {
   render () {
     return (
       <article>
@@ -121,12 +115,12 @@ class NotFoundPage extends React.Component {
   }
 }
 
-module.exports = NotFoundPage
+module.exports = NotFound
 `
 
 templates['app/pages/index.js'] = () => `
-exports.HomePage = require('./HomePage')
-exports.NotFoundPage = require('./NotFoundPage')
+exports.Home = require('./Home')
+exports.NotFound = require('./NotFound')
 `
 
 templates['app/server/controllers/home.js'] = () => `
@@ -135,7 +129,7 @@ const { Router } = require('express')
 const router = new Router()
 
 router.get('/', function (req, res) {
-  res.chemist.render('HomePage')
+  res.chemist.render('Home')
 })
 
 module.exports = router
@@ -147,7 +141,7 @@ const { Router } = require('express')
 const router = new Router()
 
 router.use(function (req, res) {
-  res.status(404).chemist.render('NotFoundPage')
+  res.status(404).chemist.render('NotFound')
 })
 
 module.exports = router

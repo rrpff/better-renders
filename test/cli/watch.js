@@ -18,7 +18,7 @@ describe('chemist watch', function () {
       done()
     }
 
-    this.proc.stderr.on('data', done)
+    this.proc.stderr.on('data', err => done(new Error(err.toString())))
     this.proc.stdout.on('data', msg => {
       if (msg.includes('[rendered]')) {
         checkAssetServer(msg).catch(done)

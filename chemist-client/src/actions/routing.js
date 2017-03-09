@@ -1,17 +1,17 @@
 const { SET_LOCATION } = require('../types')
 
-function setLocation ({ location, component, props }) {
-  return { type: SET_LOCATION, location, component, props }
+function setLocation ({ location, page, props }) {
+  return { type: SET_LOCATION, location, page, props }
 }
 
 function fetchLocation ({ host, location }) {
   return dispatch => {
-    const path = host + location.pathname
+    const path = host + location.pathname + location.search
     fetch(path, { headers: { Accept: 'application/json' } })
       .then(res => res.json())
-      .then(({ component, props }) => dispatch(setLocation({ location, component, props })))
+      .then(({ page, props }) => dispatch(setLocation({ location, page, props })))
       // TODO: handle this error properly
-      .catch(err => { throw err })
+      .catch(err => console.error(err))
   }
 }
 

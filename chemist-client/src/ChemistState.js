@@ -1,11 +1,11 @@
 const React = require('react')
 const serialize = require('serialize-js')
 
-const ChemistState = ({ initialComponent, initialProps }) =>
+const ChemistState = ({ initialPage, initialProps }) =>
   <script
     dangerouslySetInnerHTML={{ __html: `
 window.__chemistState = {
-  initialComponent: '${initialComponent}',
+  initialPage: '${initialPage}',
   initialProps: ${serialize(initialProps)}
 };
     ` }}

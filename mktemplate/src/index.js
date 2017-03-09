@@ -17,7 +17,7 @@ function createFile ({ absolutePath, content }) {
   })
 }
 
-function filegen ({ root, files, context = {}, onFileCreate = () => {} }) {
+function mktemplate ({ root, files, context = {}, onFileCreate = () => {} }) {
   const creators = Object.keys(files).map(filePath => {
     const content = files[filePath](context)
     const stripped = content.replace(/^\s*\n/, '')
@@ -33,4 +33,4 @@ function filegen ({ root, files, context = {}, onFileCreate = () => {} }) {
   return Promise.all(creators)
 }
 
-module.exports = filegen
+module.exports = mktemplate
