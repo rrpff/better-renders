@@ -2,14 +2,15 @@ const path = require('path')
 const { exec, spawn } = require('child_process')
 const rimraf = require('rimraf')
 
+const chemistDirectory = path.join(__dirname, '..', '..')
+
 function build ({ args, directory }) {
   const cwd = path.join(directory, '..')
   const rootDir = path.join(__dirname, '..', '..')
-  const nodeBinary = path.join(path.relative(cwd, rootDir), 'node_modules', '.bin', 'babel-node')
-  const cliBinary = path.join(path.relative(cwd, rootDir), 'src', 'cli')
+  const cliBinary = path.join(path.relative(cwd, rootDir), 'dist', 'cli', 'index.js')
 
   return new Promise((accept, reject) => {
-    exec(`${nodeBinary} ${cliBinary} new ${args}`, { cwd }, function (err, stdout, stderr) {
+    exec(`${cliBinary} new ${args}`, { cwd }, function (err, stdout, stderr) {
       if (err) reject(err)
       accept({ stdout, stderr })
     })
@@ -18,8 +19,7 @@ function build ({ args, directory }) {
 
 function link ({ directory }) {
   return new Promise((accept, reject) => {
-    const chemistLocation = path.join(__dirname, '..', '..')
-    exec('yarn link', { cwd: chemistLocation }, function (err) {
+    exec('yarn link', { cwd: chemistDirectory }, function (err) {
       if (err) reject(err)
       exec('yarn link "@zuren/chemist-rewrite"', { cwd: directory }, function (childErr) {
         if (err) reject(childErr)
@@ -30,12 +30,8 @@ function link ({ directory }) {
 }
 
 function unlink () {
-  return new Promise((accept, reject) => {
-    const chemistLocation = path.join(__dirname, '..', '..')
-    exec('yarn unlink', { cwd: chemistLocation }, function (err) {
-      if (err) reject(err)
-      else accept()
-    })
+  return new Promise(accept => {
+    exec('yarn unlink', { cwd: chemistDirectory }, accept)
   })
 }
 
@@ -49,11 +45,10 @@ function install ({ directory }) {
 }
 
 function compile ({ directory }) {
-  const rootDir = path.join(__dirname, '..', '..')
-  const cliBinary = path.join(path.relative(directory, rootDir), 'src', 'cli')
+  const cliBinary = path.join(path.relative(directory, chemistDirectory), 'dist', 'cli', 'index.js')
 
   return new Promise((accept, reject) => {
-    exec(`node_modules/.bin/babel-node ${cliBinary} compile`, { cwd: directory }, function (err, stdout, stderr) {
+    exec(`${cliBinary} compile`, { cwd: directory }, function (err, stdout, stderr) {
       if (err) reject(err)
       accept({ stdout, stderr })
     })
@@ -61,17 +56,15 @@ function compile ({ directory }) {
 }
 
 function watch ({ directory }) {
-  const rootDir = path.join(__dirname, '..', '..')
-  const cliBinary = path.join(path.relative(directory, rootDir), 'src', 'cli')
+  const cliBinary = path.join(path.relative(directory, chemistDirectory), 'dist', 'cli', 'index.js')
 
-  return spawn('node_modules/.bin/babel-node', [cliBinary, 'watch'], { cwd: directory })
+  return spawn(cliBinary, ['watch'], { cwd: directory })
 }
 
 function start ({ directory }) {
-  const rootDir = path.join(__dirname, '..', '..')
-  const cliBinary = path.join(path.relative(directory, rootDir), 'src', 'cli')
+  const cliBinary = path.join(path.relative(directory, chemistDirectory), 'dist', 'cli', 'index.js')
 
-  return spawn('node_modules/.bin/babel-node', [cliBinary, 'start'], { cwd: directory, detached: true })
+  return spawn(cliBinary, ['start'], { cwd: directory, detached: true })
 }
 
 function remove ({ directory }) {

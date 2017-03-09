@@ -11,7 +11,7 @@ describe('chemist compile', function () {
   it('should bundle the client app', async function () {
     const files = glob.sync(`${this.directory}/static/dist/*`)
 
-    expect(files).to.have.length.of(1)
+    expect(files).to.have.length.of(2)
     expect(files[0]).to.match(/main-[^.]+\.js/)
   })
 })
