@@ -7,7 +7,11 @@
     "prepublish": "yarn run build",
     "lint": "eslint -c .eslintrc .",
     "test": "NODE_ENV=test mocha test/lib/*.js test/cli/*.js",
-    "build": "babel src --out-dir dist && chmod u+x dist/cli/index.js"
+    "build-client": "cd chemist-client && yarn build",
+    "build-render": "cd chemist-render && yarn build",
+    "build-mktemplate": "cd mktemplate && yarn build",
+    "build-chemist": "babel src --out-dir dist && chmod u+x dist/cli/index.js",
+    "build": "concurrently \"yarn run build-client\" \"yarn run build-render\" \"yarn run build-mktemplate\" \"yarn run build-chemist\""
   },
   "keywords": [],
   "author": "Richard Foster <richard@rpf.me> (http://rpf.me)",
