@@ -1,6 +1,6 @@
 const path = require('path')
 const mkdirp = require('mkdirp-promise')
-const filegen = require('../../../filegen')
+const mktemplate = require('../../../mktemplate')
 const logger = require('../logger')
 const files = require('../templates')
 const pkg = require('../../../package.json')
@@ -11,7 +11,7 @@ async function create (name, dir = name) {
   const onFileCreate = file => logger.success(file, 'created')
 
   await mkdirp(root)
-  await filegen({ root, files, context, onFileCreate })
+  await mktemplate({ root, files, context, onFileCreate })
 
   logger.done(`${name} is ready!`)
 }
