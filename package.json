@@ -6,7 +6,11 @@
   "scripts": {
     "prepublish": "yarn run build",
     "lint": "eslint -c .eslintrc .",
-    "test": "NODE_ENV=test mocha test/lib/*.js test/cli/*.js",
+    "test-client": "cd chemist-client && yarn test",
+    "test-render": "cd chemist-render && yarn test",
+    "test-mktemplate": "cd mktemplate && yarn test",
+    "test-chemist": "NODE_ENV=test mocha test/lib/*.js test/cli/*.js",
+    "test": "concurrently --raw \"yarn run test-client\" \"yarn run test-render\" \"yarn run test-mktemplate\" \"yarn run test-chemist\"",
     "build-client": "cd chemist-client && yarn build",
     "build-render": "cd chemist-render && yarn build",
     "build-mktemplate": "cd mktemplate && yarn build",
