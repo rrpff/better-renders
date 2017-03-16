@@ -2,7 +2,7 @@ const templates = {}
 
 templates['app/client/reducers/index.js'] = () => `
 const { combineReducers } = require('redux')
-const { createRoutingReducer } = require('@zuren/chemist-rewrite')
+const { createRoutingReducer } = require('chemist')
 const pages = require('../../pages')
 
 const { initialPage, initialProps } = window.__chemistState
@@ -21,7 +21,7 @@ const ReactDOM = require('react-dom')
 const { applyMiddleware, createStore } = require('redux')
 const thunk = require('redux-thunk').default
 const { Provider } = require('react-redux')
-const { ClientRouter, syncHistoryToStore } = require('@zuren/chemist-rewrite')
+const { ClientRouter, syncHistoryToStore } = require('chemist')
 const createBrowserHistory = require('history/createBrowserHistory').default
 const reducer = require('./reducers')
 
@@ -61,12 +61,12 @@ const Layout = props =>
 module.exports = Layout
 `
 
-templates['app/layouts/ServerLayout/index.js'] = () => `
+templates['app/layouts/Document/index.js'] = () => `
 const React = require('react')
-const { ChemistState } = require('@zuren/chemist-rewrite')
+const { ChemistState } = require('chemist')
 const Layout = require('../Layout')
 
-const ServerLayout = props =>
+const Document = props =>
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -84,7 +84,7 @@ const ServerLayout = props =>
     </body>
   </html>
 
-module.exports = ServerLayout
+module.exports = Document
 `
 
 templates['app/pages/Home/index.js'] = () => `
@@ -148,11 +148,11 @@ module.exports = router
 `
 
 templates['app/server/server.js'] = () => `
-const chemist = require('@zuren/chemist-rewrite/server')
+const chemist = require('chemist/server')
 const pages = require('../pages')
-const Layout = require('../layouts/ServerLayout')
+const Document = require('../layouts/Document')
 
-const server = chemist({ pages, Layout })
+const server = chemist({ pages, Document })
 
 server.use(require('./controllers/home'))
 server.use(require('./controllers/notFound'))
@@ -162,7 +162,7 @@ module.exports = server
 `
 
 templates['app/server/index.js'] = () => `
-const { config } = require('@zuren/chemist-rewrite/server')
+const { config } = require('chemist/server')
 const server = require('./server')
 
 server.listen(config.app.port, function () {
@@ -267,9 +267,9 @@ templates['package.json'] = ({ name, version }) => `
   "private": true,
   "scripts": {
     "lint": "eslint -c .eslintrc .",
-    "build": "NODE_ENV=production ../dist/cli/index.js compile",
-    "start": "NODE_ENV=production ../dist/cli/index.js start",
-    "dev": "NODE_ENV=development concurrently \\"../dist/cli/index.js watch\\" \\"../dist/cli/index.js start\\"",
+    "build": "NODE_ENV=production chemist compile",
+    "start": "NODE_ENV=production chemist start",
+    "dev": "NODE_ENV=development concurrently \\"chemist watch\\" \\"chemist start\\"",
     "test": "mocha test/**/*.test.js"
   },
   "devDependencies": {
@@ -291,7 +291,7 @@ templates['package.json'] = ({ name, version }) => `
     "react-addons-test-utils": "^15.4.1"
   },
   "dependencies": {
-    "@zuren/chemist-rewrite": "${version}",
+    "chemist": "${version}",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",
