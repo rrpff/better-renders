@@ -2,7 +2,7 @@ const templates = {}
 
 templates['app/client/reducers/index.js'] = () => `
 const { combineReducers } = require('redux')
-const { createRoutingReducer } = require('@zuren/chemist-rewrite')
+const { createRoutingReducer } = require('chemist')
 const pages = require('../../pages')
 
 const { initialPage, initialProps } = window.__chemistState
@@ -21,7 +21,7 @@ const ReactDOM = require('react-dom')
 const { applyMiddleware, createStore } = require('redux')
 const thunk = require('redux-thunk').default
 const { Provider } = require('react-redux')
-const { ClientRouter, syncHistoryToStore } = require('@zuren/chemist-rewrite')
+const { ClientRouter, syncHistoryToStore } = require('chemist')
 const createBrowserHistory = require('history/createBrowserHistory').default
 const reducer = require('./reducers')
 
@@ -63,7 +63,7 @@ module.exports = Layout
 
 templates['app/layouts/ServerLayout/index.js'] = () => `
 const React = require('react')
-const { ChemistState } = require('@zuren/chemist-rewrite')
+const { ChemistState } = require('chemist')
 const Layout = require('../Layout')
 
 const ServerLayout = props =>
@@ -148,7 +148,7 @@ module.exports = router
 `
 
 templates['app/server/server.js'] = () => `
-const chemist = require('@zuren/chemist-rewrite/server')
+const chemist = require('chemist/server')
 const pages = require('../pages')
 const Layout = require('../layouts/ServerLayout')
 
@@ -162,7 +162,7 @@ module.exports = server
 `
 
 templates['app/server/index.js'] = () => `
-const { config } = require('@zuren/chemist-rewrite/server')
+const { config } = require('chemist/server')
 const server = require('./server')
 
 server.listen(config.app.port, function () {
@@ -291,7 +291,7 @@ templates['package.json'] = ({ name, version }) => `
     "react-addons-test-utils": "^15.4.1"
   },
   "dependencies": {
-    "@zuren/chemist-rewrite": "${version}",
+    "chemist": "${version}",
     "body-parser": "^1.15.2",
     "cors": "^2.8.1",
     "express": "^4.14.0",

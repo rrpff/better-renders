@@ -1,6 +1,6 @@
 {
-  "name": "@zuren/chemist-rewrite",
-  "version": "1.0.1",
+  "name": "chemist",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {

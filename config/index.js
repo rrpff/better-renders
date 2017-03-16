@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = function (config) {
   config.version = require('../package.json').version
 
@@ -14,4 +16,5 @@ module.exports = function (config) {
   }
 
   config.staticPath = './static'
+  config.serverPath = path.join(process.cwd(), 'app', 'server')
 }

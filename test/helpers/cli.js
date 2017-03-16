@@ -21,7 +21,7 @@ function link ({ directory }) {
   return new Promise((accept, reject) => {
     exec('yarn link', { cwd: chemistDirectory }, function (err) {
       if (err) reject(err)
-      exec('yarn link "@zuren/chemist-rewrite"', { cwd: directory }, function (childErr) {
+      exec('yarn link "chemist"', { cwd: directory }, function (childErr) {
         if (err) reject(childErr)
         accept()
       })
