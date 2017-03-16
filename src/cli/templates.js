@@ -61,12 +61,12 @@ const Layout = props =>
 module.exports = Layout
 `
 
-templates['app/layouts/ServerLayout/index.js'] = () => `
+templates['app/layouts/Document/index.js'] = () => `
 const React = require('react')
 const { ChemistState } = require('chemist')
 const Layout = require('../Layout')
 
-const ServerLayout = props =>
+const Document = props =>
   <html lang="en">
     <head>
       <meta charSet="UTF-8" />
@@ -84,7 +84,7 @@ const ServerLayout = props =>
     </body>
   </html>
 
-module.exports = ServerLayout
+module.exports = Document
 `
 
 templates['app/pages/Home/index.js'] = () => `
@@ -150,9 +150,9 @@ module.exports = router
 templates['app/server/server.js'] = () => `
 const chemist = require('chemist/server')
 const pages = require('../pages')
-const Layout = require('../layouts/ServerLayout')
+const Document = require('../layouts/Document')
 
-const server = chemist({ pages, Layout })
+const server = chemist({ pages, Document })
 
 server.use(require('./controllers/home'))
 server.use(require('./controllers/notFound'))
